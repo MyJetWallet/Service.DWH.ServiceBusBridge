@@ -1,3 +1,4 @@
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -31,8 +32,9 @@ namespace Service.DwhServiceBusBridge.DwhDatabase
 
             modelBuilder.HasDefaultSchema(Schema);
 
-            modelBuilder.Entity<TestEntity>().ToTable("TestTableName");
-            modelBuilder.Entity<TestEntity>().HasKey(e => e.Id);
+            modelBuilder.Entity<TestEntity>().ToTable(TestTableName);
+            modelBuilder.Entity<TestEntity>().HasKey(e => new { e.Id });
+            modelBuilder.Entity<TestEntity>().Property(e => e.Id).ValueGeneratedNever();
             modelBuilder.Entity<TestEntity>().Property(e => e.Message).HasMaxLength(255);
         }
     }
@@ -41,5 +43,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase
     {
         public int Id { get; set; }
         public string Message { get; set; }
+        
+        public DateTime Timestamp { get; set; }
     }
 }

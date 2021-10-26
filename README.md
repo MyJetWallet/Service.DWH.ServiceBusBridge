@@ -8,3 +8,12 @@
 
 *Client library:* ![Nuget version](https://img.shields.io/nuget/v/MyJetWallet.Service.DwhServiceBusBridge.Client?label=MyJetWallet.Service.DwhServiceBusBridge.Client&style=social)
 
+
+# migration db
+
+```bash
+cd src/Service.DwhServiceBusBridge.DwhDatabase
+
+dotnet ef migrations add Version_1
+```
+

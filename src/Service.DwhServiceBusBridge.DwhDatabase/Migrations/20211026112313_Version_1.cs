@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 {
@@ -10,24 +11,24 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 name: "sbus");
 
             migrationBuilder.CreateTable(
-                name: "TestTableName",
+                name: "test_table",
                 schema: "sbus",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Message = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Message = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TestTableName", x => x.Id);
+                    table.PrimaryKey("PK_test_table", x => x.Id);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "TestTableName",
+                name: "test_table",
                 schema: "sbus");
         }
     }
