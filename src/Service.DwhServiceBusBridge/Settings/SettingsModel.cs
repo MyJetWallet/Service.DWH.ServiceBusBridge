@@ -13,5 +13,11 @@ namespace Service.DwhServiceBusBridge.Settings
 
         [YamlProperty("DwhServiceBusBridge.ElkLogs")]
         public LogElkSettings ElkLogs { get; set; }
+
+        [YamlProperty("DwhServiceBusBridge.DwhConnectionString")]
+        public string DwhConnectionString { get; set; }
+
+        [YamlProperty("DwhServiceBusBridge.MyServiceBusHostPort")]
+        public string MyServiceBusHostPort { get; set; }
     }
 }

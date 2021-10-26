@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Autofac.Core;
 using Autofac.Core.Registration;
+using MyJetWallet.Sdk.ServiceBus;
 
 namespace Service.DwhServiceBusBridge.Modules
 {
@@ -8,6 +9,8 @@ namespace Service.DwhServiceBusBridge.Modules
     {
         protected override void Load(ContainerBuilder builder)
         {
+            var serviceBusClient = builder.RegisterMyServiceBusTcpClient(() => Program.Settings.MyServiceBusHostPort, Program.LogFactory);
+            
             
         }
     }
