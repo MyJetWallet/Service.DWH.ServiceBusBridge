@@ -49,7 +49,7 @@ namespace Service.DwhServiceBusBridge.Job
                 }
             }
 
-            //_logger.LogInformation("ExternalPricesWriter handled {count} prices", prices.Count);
+            _logger.LogInformation("ExternalPricesWriter handled {count} prices", prices.Count);
         }
 
         public void Start()
