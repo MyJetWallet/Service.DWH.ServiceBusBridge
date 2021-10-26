@@ -72,11 +72,8 @@ namespace Service.DwhServiceBusBridge.Job
             index++;
 
             var time = await Sleep();
-
-            DwhContext.LoggerFactory = Program.LogFactory;
+            
             await using var ctx = _dwhDbContextFactory.Create();
-            //DwhContext.LoggerFactory = null;
-
             
             var item1 = await ctx.TestTable.Where(e => e.Id == 1).FirstOrDefaultAsync();
 
