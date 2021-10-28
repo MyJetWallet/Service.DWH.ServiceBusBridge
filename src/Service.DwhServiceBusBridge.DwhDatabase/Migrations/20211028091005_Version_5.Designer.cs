@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Service.DwhServiceBusBridge.DwhDatabase;
 
 namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 {
     [DbContext(typeof(DwhContext))]
-    partial class DwhContextModelSnapshot : ModelSnapshot
+    [Migration("20211028091005_Version_5")]
+    partial class Version_5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -141,44 +143,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.ToTable("JetWalletManualBalanceChangeOperation");
                 });
 
-            modelBuilder.Entity("Service.DwhServiceBusBridge.DwhDatabase.ClientProfileUpdateMessageEntity", b =>
-                {
-                    b.Property<string>("ClientId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("Timestamp")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("BlockresJson")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
-
-                    b.Property<bool>("KYCPassed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("OldProfileJson")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Status2FA")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Status2FEText")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("ClientId", "Timestamp");
-
-                    b.ToTable("JetWalletClientProfileUpdate");
-                });
-
             modelBuilder.Entity("Service.DwhServiceBusBridge.DwhDatabase.TestEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -194,25 +158,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("test_table");
-                });
-
-            modelBuilder.Entity("SimpleTrading.ServiceBus.Models.BidAskServiceBusModel", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<double>("Ask")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Bid")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SpotBidAsk");
                 });
 #pragma warning restore 612, 618
         }

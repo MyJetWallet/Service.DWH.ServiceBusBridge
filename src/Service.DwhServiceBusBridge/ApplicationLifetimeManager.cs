@@ -11,17 +11,20 @@ namespace Service.DwhServiceBusBridge
         private readonly ILogger<ApplicationLifetimeManager> _logger;
         private readonly ServiceBusLifeTime _serviceBus;
         private readonly ExternalPricesWriter _externalPricesWriter;
+        private readonly SpotBidAskWriter _spotBidAskWriter;
 
         public ApplicationLifetimeManager(
             IHostApplicationLifetime appLifetime, 
             ILogger<ApplicationLifetimeManager> logger,
             ServiceBusLifeTime serviceBus,
-            ExternalPricesWriter externalPricesWriter)
+            ExternalPricesWriter externalPricesWriter,
+            SpotBidAskWriter spotBidAskWriter)
             : base(appLifetime)
         {
             _logger = logger;
             _serviceBus = serviceBus;
             _externalPricesWriter = externalPricesWriter;
+            _spotBidAskWriter = spotBidAskWriter;
         }
 
         protected override void OnStarted()
@@ -29,6 +32,7 @@ namespace Service.DwhServiceBusBridge
             _logger.LogInformation("OnStarted has been called.");
             _serviceBus.Start();
             _externalPricesWriter.Start();
+            _spotBidAskWriter.Start();
         }
 
         protected override void OnStopping()

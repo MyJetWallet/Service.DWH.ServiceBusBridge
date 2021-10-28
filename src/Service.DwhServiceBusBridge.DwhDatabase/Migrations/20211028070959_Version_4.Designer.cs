@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Service.DwhServiceBusBridge.DwhDatabase;
 
 namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 {
     [DbContext(typeof(DwhContext))]
-    partial class DwhContextModelSnapshot : ModelSnapshot
+    [Migration("20211028070959_Version_4")]
+    partial class Version_4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,44 +44,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.ToTable("JetwalletExternalPrices");
                 });
 
-            modelBuilder.Entity("Service.Authorization.Domain.Models.ServiceBus.ClientAuthenticationMessage", b =>
-                {
-                    b.Property<string>("TraderId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Brand")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Ip")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LanguageId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserAgent")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("TraderId");
-
-                    b.ToTable("JetWalletClientAuthentification");
-                });
-
-            modelBuilder.Entity("Service.BitGo.SignTransaction.Domain.Models.SignalBitGoSessionStateUpdate", b =>
-                {
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("State")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UpdatedDate");
-
-                    b.ToTable("BitgoSessionUpdateSignal");
-                });
-
             modelBuilder.Entity("Service.Bitgo.Webhooks.Domain.Models.SignalBitGoPendingApproval", b =>
                 {
                     b.Property<string>("PendingApprovalId")
@@ -92,22 +56,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.HasKey("PendingApprovalId");
 
                     b.ToTable("BitgoPendingApprovalSignal");
-                });
-
-            modelBuilder.Entity("Service.Bitgo.Webhooks.Domain.Models.SignalBitGoTransfer", b =>
-                {
-                    b.Property<string>("TransferId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Coin")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("WalletId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("TransferId");
-
-                    b.ToTable("BitgoTransferSignal");
                 });
 
             modelBuilder.Entity("Service.ChangeBalanceGateway.Grpc.Models.ManualChangeBalanceMessage", b =>
@@ -141,42 +89,31 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.ToTable("JetWalletManualBalanceChangeOperation");
                 });
 
-            modelBuilder.Entity("Service.DwhServiceBusBridge.DwhDatabase.ClientProfileUpdateMessageEntity", b =>
+            modelBuilder.Entity("Service.DwhServiceBusBridge.DwhDatabase.ClientAuthenticationMessageEntity", b =>
                 {
-                    b.Property<string>("ClientId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("Timestamp")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("BlockresJson")
+                    b.Property<string>("Brand")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
-
-                    b.Property<bool>("KYCPassed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("OldProfileJson")
+                    b.Property<string>("Ip")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("PhoneConfirmed")
-                        .HasColumnType("bit");
+                    b.Property<string>("LanguageId")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Status2FA")
-                        .HasColumnType("int");
+                    b.Property<string>("TraderId")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Status2FEText")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<string>("UserAgent")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ClientId", "Timestamp");
+                    b.HasKey("Id");
 
-                    b.ToTable("JetWalletClientProfileUpdate");
+                    b.ToTable("JetWalletClientAuthentification");
                 });
 
             modelBuilder.Entity("Service.DwhServiceBusBridge.DwhDatabase.TestEntity", b =>
@@ -194,25 +131,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("test_table");
-                });
-
-            modelBuilder.Entity("SimpleTrading.ServiceBus.Models.BidAskServiceBusModel", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<double>("Ask")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Bid")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SpotBidAsk");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,43 +1,43 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DotNetCoreDecorators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using MyJetWallet.Domain.Prices;
 using MyJetWallet.Sdk.Service.Tools;
 using Service.DwhServiceBusBridge.DwhDatabase;
+using SimpleTrading.ServiceBus.Models;
 
 namespace Service.DwhServiceBusBridge.Job
 {
-    public class ExternalPricesWriter: IDisposable
+    public class SpotBidAskWriter : IDisposable
     {
-        private readonly ILogger<ExternalPricesWriter> _logger;
-        private readonly ISubscriber<IReadOnlyList<BidAsk>> _subscriber;
-        private readonly IDwhDbContextFactory _dwhDbContextFactory;
+        private ILogger<SpotBidAskWriter> _logger;
+        private ISubscriber<IReadOnlyList<BidAskServiceBusModel>> _subscriber;
+        private IDwhDbContextFactory _dwhDbContextFactory;
         private MyTaskTimer _timer;
 
-        private Dictionary<string, BidAsk> _data = new Dictionary<string, BidAsk>();
-        
-        public ExternalPricesWriter(ILogger<ExternalPricesWriter> logger,
-            ISubscriber<IReadOnlyList<BidAsk>> subscriber,
+        private Dictionary<string, BidAskServiceBusModel> _data = new Dictionary<string, BidAskServiceBusModel>();
+
+        public SpotBidAskWriter(ILogger<SpotBidAskWriter> logger,
+            ISubscriber<IReadOnlyList<BidAskServiceBusModel>> subscriber,
             IDwhDbContextFactory dwhDbContextFactory)
         {
             _logger = logger;
             _subscriber = subscriber;
             _dwhDbContextFactory = dwhDbContextFactory;
 
-            _timer = new MyTaskTimer(nameof(ExternalPricesWriter), TimeSpan.FromSeconds(5), logger, DoTime);
-            subscriber.Subscribe(HandlePrices);
+            _timer = new MyTaskTimer(nameof(SpotBidAskWriter), TimeSpan.FromSeconds(5), logger, DoTime);
+            subscriber.Subscribe(HandleSpotBidAskPrices);
         }
 
         
 
-        private async ValueTask HandlePrices(IReadOnlyList<BidAsk> prices)
+        private async ValueTask HandleSpotBidAskPrices(IReadOnlyList<BidAskServiceBusModel> prices)
         {
             var actualPrices = prices
-                .GroupBy(e => new {e.LiquidityProvider, e.Id})
+                .GroupBy(e => new {e.Id})
                 .Select(e => e.OrderByDescending(e => e.DateTime).First())
                 .ToList();
 
@@ -45,11 +45,11 @@ namespace Service.DwhServiceBusBridge.Job
             {
                 foreach (var price in actualPrices)
                 {
-                    _data[$"{price.LiquidityProvider}|||{price.Id}"] = price;
+                    _data[$"{price.Id}"] = price;
                 }
             }
 
-            //_logger.LogInformation("ExternalPricesWriter handled {count} prices", prices.Count);
+            _logger.LogInformation("HandleSpotBidAskPrices handled {count} Spot BidAsk", prices.Count);
         }
 
         public void Start()
@@ -59,20 +59,19 @@ namespace Service.DwhServiceBusBridge.Job
 
         private async Task DoTime()
         {
-            var list = new List<BidAsk>();
+            var list = new List<BidAskServiceBusModel>();
             lock (_data)
             {
                 list = _data.Values.ToList();
             }
 
             var time = await Sleep();
-            
+
             await using var ctx = _dwhDbContextFactory.Create();
 
-            await ctx.BidAskTable.UpsertRange(list)
-                .On(e => new { e.Id, e.LiquidityProvider})
+            await ctx.SpotBidAskTable.UpsertRange(list)
+                .On(e => new { e.Id })
                 .RunAsync();
-            
         }
 
         private async Task<int> Sleep()
@@ -86,5 +85,6 @@ namespace Service.DwhServiceBusBridge.Job
         {
             _timer?.Dispose();
         }
+        
     }
 }

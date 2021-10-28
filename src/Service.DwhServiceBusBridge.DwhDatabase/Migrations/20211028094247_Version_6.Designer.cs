@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Service.DwhServiceBusBridge.DwhDatabase;
 
 namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 {
     [DbContext(typeof(DwhContext))]
-    partial class DwhContextModelSnapshot : ModelSnapshot
+    [Migration("20211028094247_Version_6")]
+    partial class Version_6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -139,44 +141,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.HasKey("TransactionId");
 
                     b.ToTable("JetWalletManualBalanceChangeOperation");
-                });
-
-            modelBuilder.Entity("Service.DwhServiceBusBridge.DwhDatabase.ClientProfileUpdateMessageEntity", b =>
-                {
-                    b.Property<string>("ClientId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("Timestamp")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("BlockresJson")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
-
-                    b.Property<bool>("KYCPassed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("OldProfileJson")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Status2FA")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Status2FEText")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("ClientId", "Timestamp");
-
-                    b.ToTable("JetWalletClientProfileUpdate");
                 });
 
             modelBuilder.Entity("Service.DwhServiceBusBridge.DwhDatabase.TestEntity", b =>
