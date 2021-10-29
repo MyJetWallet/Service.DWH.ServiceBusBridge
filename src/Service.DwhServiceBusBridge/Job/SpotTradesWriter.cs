@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DotNetCoreDecorators;
@@ -27,13 +28,24 @@ namespace Service.DwhServiceBusBridge.Job
 
         private async ValueTask HandleSpotTrade(IReadOnlyList<WalletTradeMessage> messages)
         {
-            await using var ctx = _dwhDbContextFactory.Create();
+            try
+            {
+                await using var ctx = _dwhDbContextFactory.Create();
 
-            var data = messages.Select(WalletTradeMassageEntity.Create).ToList();
+                var data = messages.Select(WalletTradeMassageEntity.Create).ToList();
 
-            await ctx.WalletTradeMassageTable.UpsertRange(data).RunAsync();
-            
-            _logger.LogInformation("HandleSpotTrade handled {count}: ", data.Count);
+                await ctx.WalletTradeMassageTable.UpsertRange(data)
+                    .On(e=>new {e.TraderUId, e.DateTime})
+                    .RunAsync();
+                
+
+                _logger.LogInformation("HandleSpotTrade handled {count} ", data.Count);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Exception: HandleSpotTrade ");
+                throw;
+            }
         }
     }
 }

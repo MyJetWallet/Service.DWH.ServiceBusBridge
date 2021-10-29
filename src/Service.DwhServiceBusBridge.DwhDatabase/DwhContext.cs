@@ -77,6 +77,16 @@ namespace Service.DwhServiceBusBridge.DwhDatabase
         public DbSet<TokenManagerAuditSessionEntity> TokenManagerAuditSessionTable { get; set; }
         
         public DbSet<WalletTradeMassageEntity> WalletTradeMassageTable { get; set; }
+        
+        public DbSet<PersonalDataUpdateEntity> PersonalDataUpdateTable { get; set; }
+        
+        public DbSet<ClientRegisterFailAlreadyExistsEntity> RegistratinFailTable { get; set; }
+        
+        public DbSet<ClientRegisterMessage> ClientRegisterTable { get; set; }
+        
+        public DbSet<MeEventEntity> MeEventTable { get; set; }
+        
+       public DbSet<SignalCircleTransferEntity> CircleTransferTable { get; set; }
 
 
         public DwhContext(DbContextOptions options) : base(options)
@@ -111,7 +121,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase
             modelBuilder.Entity<BidAsk>().Property(e => e.Ask);
             modelBuilder.Entity<BidAsk>().Property(e => e.LiquidityProvider).ValueGeneratedNever();
 
-
             modelBuilder.Entity<ManualChangeBalanceMessage>().ToTable("JetWalletManualBalanceChangeOperation");
             modelBuilder.Entity<ManualChangeBalanceMessage>().HasKey(e => new { e.TransactionId });
             modelBuilder.Entity<ManualChangeBalanceMessage>().Property(e => e.TransactionId).ValueGeneratedNever();
@@ -140,10 +149,11 @@ namespace Service.DwhServiceBusBridge.DwhDatabase
 
             
             modelBuilder.Entity<ClientProfileUpdateMessageEntity>().ToTable("JetWalletClientProfileUpdate");
-            modelBuilder.Entity<ClientProfileUpdateMessageEntity>().HasKey(e => new {e.ClientId, e.Timestamp});
+            modelBuilder.Entity<ClientProfileUpdateMessageEntity>().HasKey(e => new {e.ClientId, e.Timestamp, e.Id});
             modelBuilder.Entity<ClientProfileUpdateMessageEntity>().Ignore(e => e.Blockers);
             modelBuilder.Entity<ClientProfileUpdateMessageEntity>().Property(e => e.Status2FEText).HasMaxLength(20);
             modelBuilder.Entity<ClientProfileUpdateMessageEntity>().Property(e => e.ClientId).ValueGeneratedNever();
+            modelBuilder.Entity<ClientProfileUpdateMessageEntity>().Property(e => e.Id);
             modelBuilder.Entity<ClientProfileUpdateMessageEntity>().Property(e => e.Timestamp).ValueGeneratedNever();
 
             modelBuilder.Entity<FeeShareEntity>().ToTable("JetWalletFeeShareTransfer");
@@ -155,20 +165,20 @@ namespace Service.DwhServiceBusBridge.DwhDatabase
             modelBuilder.Entity<FeePaymentEntity>().Property(e => e.PaymentOperationId).ValueGeneratedNever();
 
             modelBuilder.Entity<Deposit>().ToTable("JetWalletCryptoDepositOperation");
-            modelBuilder.Entity<Deposit>().HasKey(e => e.TransactionId);
-            modelBuilder.Entity<Deposit>().Property(e => e.TransactionId).ValueGeneratedNever();
+            modelBuilder.Entity<Deposit>().HasKey(e => e.Id);
+            modelBuilder.Entity<Deposit>().Property(e => e.Id).ValueGeneratedNever();
 
             modelBuilder.Entity<Withdrawal>().ToTable("JetWalletCryptoWithdrawalOperation");
-            modelBuilder.Entity<Withdrawal>().HasKey(e => e.TransactionId);
-            modelBuilder.Entity<Withdrawal>().Property(e => e.TransactionId).ValueGeneratedNever();
+            modelBuilder.Entity<Withdrawal>().HasKey(e => e.Id);
+            modelBuilder.Entity<Withdrawal>().Property(e => e.Id).ValueGeneratedNever();
 
             modelBuilder.Entity<WithdrawalVerifiedMessage>().ToTable("JetWalletCryptoWithdrawalVerification");
             modelBuilder.Entity<WithdrawalVerifiedMessage>().HasKey(e => e.WithdrawalProcessId);
             modelBuilder.Entity<WithdrawalVerifiedMessage>().Property(e => e.WithdrawalProcessId).ValueGeneratedNever();
 
             modelBuilder.Entity<Transfer>().ToTable("JetWalletTransferPhoneOperation");
-            modelBuilder.Entity<Transfer>().HasKey(e => e.TransactionId);
-            modelBuilder.Entity<Transfer>().Property(e => e.TransactionId).ValueGeneratedNever();            
+            modelBuilder.Entity<Transfer>().HasKey(e => e.Id);
+            modelBuilder.Entity<Transfer>().Property(e => e.Id).ValueGeneratedNever();            
             
             
             modelBuilder.Entity<TransferVerificationMessage>().ToTable("JetWalletTransferPhoneVerification");
@@ -204,14 +214,35 @@ namespace Service.DwhServiceBusBridge.DwhDatabase
             modelBuilder.Entity<TradeMessage>().Property(e=>e.Id).ValueGeneratedNever();
 
             modelBuilder.Entity<TokenManagerAuditSessionEntity>().ToTable("TokensManagerAuditSession");
-            modelBuilder.Entity<TokenManagerAuditSessionEntity>().HasKey(e=>e.Timestamp);
-            modelBuilder.Entity<TokenManagerAuditSessionEntity>().Property(e=>e.Timestamp).ValueGeneratedNever();
+            modelBuilder.Entity<TokenManagerAuditSessionEntity>().HasKey(e=>new {e.Id});
+            //modelBuilder.Entity<TokenManagerAuditSessionEntity>().Property(e=>e.Id);
             modelBuilder.Entity<TokenManagerAuditSessionEntity>().Property(e=>e.Action).HasMaxLength(20);
 
             modelBuilder.Entity<WalletTradeMassageEntity>().ToTable("SpotTrades");
             modelBuilder.Entity<WalletTradeMassageEntity>().HasKey(e=> new {e.TraderUId, e.DateTime});
             modelBuilder.Entity<WalletTradeMassageEntity>().Property(e=>e.TraderUId).ValueGeneratedNever();
             modelBuilder.Entity<WalletTradeMassageEntity>().Property(e=>e.DateTime).ValueGeneratedNever();
+            modelBuilder.Entity<WalletTradeMassageEntity>().Ignore(e => e.Trade);
+
+            modelBuilder.Entity<PersonalDataUpdateEntity>().ToTable("JetWalletPersonalDataUpdate");
+            modelBuilder.Entity<PersonalDataUpdateEntity>().HasKey(e=>e.Timestamp);
+            modelBuilder.Entity<PersonalDataUpdateEntity>().Property(e=>e.Timestamp).ValueGeneratedNever();
+
+            modelBuilder.Entity<ClientRegisterFailAlreadyExistsEntity>().ToTable("JetwalletRegistrationFailedAlreadyExists");
+            modelBuilder.Entity<ClientRegisterFailAlreadyExistsEntity>().HasKey(e=>e.Timestamp);
+            modelBuilder.Entity<ClientRegisterFailAlreadyExistsEntity>().Property(e=>e.Timestamp).ValueGeneratedNever();
+
+            modelBuilder.Entity<ClientRegisterMessage>().ToTable("JetwalletRegistrationSuccess");
+            modelBuilder.Entity<ClientRegisterMessage>().HasKey(e=>e.TraderId);
+            modelBuilder.Entity<ClientRegisterMessage>().Property(e=>e.TraderId).ValueGeneratedNever();
+
+            modelBuilder.Entity<MeEventEntity>().ToTable("MeEvent");
+            modelBuilder.Entity<MeEventEntity>().HasKey(e=>e.MessageId);
+            modelBuilder.Entity<MeEventEntity>().Property(e=>e.MessageId).ValueGeneratedNever();
+
+            
+            modelBuilder.Entity<SignalCircleTransferEntity>().ToTable("CircleTransferSignal");
+            modelBuilder.Entity<SignalCircleTransferEntity>().HasKey(e=> e.Id);
             
         }
     }

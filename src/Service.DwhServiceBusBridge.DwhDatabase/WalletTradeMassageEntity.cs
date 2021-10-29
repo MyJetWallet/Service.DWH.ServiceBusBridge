@@ -7,6 +7,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase
     public class WalletTradeMassageEntity : WalletTradeMessage
     {
         
+        
         public string TradeJson { get; set; }
         
         public string TraderUId { get; set; }

@@ -19,6 +19,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.11" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+    <PackageReference Include="MyJetWallet.Circle" Version="1.0.5" />
     <PackageReference Include="MyJetWallet.Domain" Version="1.0.32" />
     <PackageReference Include="MyJetWallet.Sdk.Authorization" Version="2.0.11" />
     <PackageReference Include="MyJetWallet.Sdk.GrpcMetrics" Version="2.0.2" />

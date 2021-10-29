@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DotNetCoreDecorators;
@@ -22,18 +23,34 @@ namespace Service.DwhServiceBusBridge.Job
             _logger = logger;
             _subscriber = subscriber;
             _dwhDbContextFactory = dwhDbContextFactory;
-            subscriber.Subscribe(HandledAuditTokenManagerSession);
+            subscriber.Subscribe(HandleAuditTokenManagerSession);
         }
 
-        private async ValueTask HandledAuditTokenManagerSession(IReadOnlyList<SessionAuditEvent> messages)
+        private async ValueTask HandleAuditTokenManagerSession(IReadOnlyList<SessionAuditEvent> messages)
         {
-            await using var ctx = _dwhDbContextFactory.Create();
+            try
+            {
+                await using var ctx = _dwhDbContextFactory.Create();
 
-            var data = messages.Select(TokenManagerAuditSessionEntity.Create).ToList();
+                var data = messages.Select(TokenManagerAuditSessionEntity.Create).ToList();
 
-            await ctx.TokenManagerAuditSessionTable.UpsertRange(data).RunAsync();
-            
-            _logger.LogInformation("HandledAuditTokenManagerSession handled {count}: ", data.Count);
+                await ctx.TokenManagerAuditSessionTable.AddRangeAsync(data);
+
+                
+                /*
+                await ctx.TokenManagerAuditSessionTable.UpsertRange(data)
+                    .On(e=>new{e.Id})
+                    .RunAsync();*/
+                
+                await ctx.SaveChangesAsync();
+
+                _logger.LogInformation("HandleAuditTokenManagerSession handled {count} ", data.Count);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Exception: HandleAuditTokenManagerSession ");
+                throw;
+            }
 
         }
     }
