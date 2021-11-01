@@ -71,6 +71,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 columns: table => new
                 {
                     TraderId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Timestapm = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Brand = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Ip = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserAgent = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -78,7 +79,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JetWalletClientAuthentification", x => x.TraderId);
+                    table.PrimaryKey("PK_JetWalletClientAuthentification", x => new { x.TraderId, x.Timestapm });
                 });
 
             migrationBuilder.CreateTable(
@@ -118,8 +119,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     Integration = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Txid = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    MatchingEngineId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastError = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MatchingEngineId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastError = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RetriesCount = table.Column<int>(type: "int", nullable: false),
                     EventDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),

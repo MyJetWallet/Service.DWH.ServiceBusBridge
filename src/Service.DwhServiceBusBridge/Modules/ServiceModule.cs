@@ -84,7 +84,7 @@ namespace Service.DwhServiceBusBridge.Modules
             builder.RegisterMyServiceBusSubscriberBatch<SignalCircleTransfer>(serviceBusClient,
                 SignalCircleTransfer.ServiceBusTopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
 
-            builder.RegisterType<SignalCircleTransfer>().SingleInstance().AutoActivate();
+            builder.RegisterType<SignalCircleTransferWriter>().SingleInstance().AutoActivate();
             
 
             builder.RegisterMyServiceBusSubscriberBatch<SignalBitGoSessionStateUpdate>(serviceBusClient,
@@ -105,8 +105,10 @@ namespace Service.DwhServiceBusBridge.Modules
 
             builder.RegisterMyServiceBusSubscriberBatch<ClientAuthenticationMessage>(serviceBusClient,
                 ClientAuthenticationMessage.TopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
+
+            builder.RegisterType<ClientAuthenticationMessageWriter>().SingleInstance().AutoActivate();
             
-            RegisterMessageWriter(builder, ctx=> ctx.ClientAuthenticationTable,e=>e.TraderId,ClientAuthenticationMessage.TopicName );
+            //RegisterMessageWriter(builder, ctx=> ctx.ClientAuthenticationTable,e=>e.TraderId,ClientAuthenticationMessage.TopicName );
 
             builder.RegisterMyServiceBusSubscriberBatch<ClientProfileUpdateMessage>(serviceBusClient,
                 ClientProfileUpdateMessage.TopicName,queryName, TopicQueueType.PermanentWithSingleConnection);
@@ -213,8 +215,6 @@ namespace Service.DwhServiceBusBridge.Modules
                 SessionAuditEvent.TopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
             
             builder.RegisterType<TokenManagerAuditSessionWriter>().SingleInstance().AutoActivate();
-
-
 
         }
     }

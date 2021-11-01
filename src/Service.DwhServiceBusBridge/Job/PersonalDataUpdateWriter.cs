@@ -39,10 +39,10 @@ namespace Service.DwhServiceBusBridge.Job
                     .On(e=>new {e.Timestamp})
                     .RunAsync();
 
-                _logger.LogInformation("HandlePersonalDataUpdateSession handled {count} ", data.Count);
+                _logger.LogInformation("{topic} handled {count} ",PersonalDataUpdateMessage.TopicName ,data.Count);
             } catch (Exception e)
             {
-                _logger.LogError(e, " Exception HandlePersonalDataUpdateSession ");
+                _logger.LogError(e, " Exception {topic} ",PersonalDataUpdateMessage.TopicName);
                 throw;
             }
 

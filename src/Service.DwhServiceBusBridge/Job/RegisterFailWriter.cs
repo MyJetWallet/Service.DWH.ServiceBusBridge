@@ -40,10 +40,10 @@ namespace Service.DwhServiceBusBridge.Job
                     .RunAsync();
                 
 
-                _logger.LogInformation("HandleClientRegisterFailAlreadyExists handled {count} ", data.Count);
+                _logger.LogInformation("{topic} handled {count} ",ClientRegisterFailAlreadyExistsMessage.TopicName ,data.Count);
             }catch (Exception e)
             {
-                _logger.LogError(e, "Exception: HandleClientRegisterFailAlreadyExists ");
+                _logger.LogError(e, "Exception: {topic} ",ClientRegisterFailAlreadyExistsMessage.TopicName);
                 throw;
             }
 

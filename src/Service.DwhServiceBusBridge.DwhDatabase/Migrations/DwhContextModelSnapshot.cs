@@ -42,28 +42,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.ToTable("JetwalletExternalPrices");
                 });
 
-            modelBuilder.Entity("Service.Authorization.Domain.Models.ServiceBus.ClientAuthenticationMessage", b =>
-                {
-                    b.Property<string>("TraderId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Brand")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Ip")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LanguageId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserAgent")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("TraderId");
-
-                    b.ToTable("JetWalletClientAuthentification");
-                });
-
             modelBuilder.Entity("Service.BitGo.SignTransaction.Domain.Models.SignalBitGoSessionStateUpdate", b =>
                 {
                     b.Property<DateTime>("UpdatedDate")
@@ -123,11 +101,9 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastError")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MatchingEngineId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Network")
@@ -331,6 +307,31 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.HasKey("TransactionId");
 
                     b.ToTable("JetWalletManualBalanceChangeOperation");
+                });
+
+            modelBuilder.Entity("Service.DwhServiceBusBridge.DwhDatabase.ClientAuthenticationMessageEntity", b =>
+                {
+                    b.Property<string>("TraderId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("Timestapm")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Brand")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Ip")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LanguageId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserAgent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TraderId", "Timestapm");
+
+                    b.ToTable("JetWalletClientAuthentification");
                 });
 
             modelBuilder.Entity("Service.DwhServiceBusBridge.DwhDatabase.ClientProfileUpdateMessageEntity", b =>

@@ -44,6 +44,7 @@ namespace Service.DwhServiceBusBridge.Job
                     .On(_match)
                     .RunAsync();
 
+                
                 _logger.LogInformation("{topic} handled {count} ", _topicName, messages.Count);
             }
             catch (Exception e)

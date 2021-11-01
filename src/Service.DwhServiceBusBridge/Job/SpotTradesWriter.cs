@@ -39,11 +39,11 @@ namespace Service.DwhServiceBusBridge.Job
                     .RunAsync();
                 
 
-                _logger.LogInformation("HandleSpotTrade handled {count} ", data.Count);
+                _logger.LogInformation("{topic} handled {count} ", WalletTradeMessage.TopicName,data.Count);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Exception: HandleSpotTrade ");
+                _logger.LogError(e, "Exception: {topic} ",WalletTradeMessage.TopicName);
                 throw;
             }
         }

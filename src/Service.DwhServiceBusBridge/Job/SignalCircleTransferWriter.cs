@@ -36,15 +36,13 @@ namespace Service.DwhServiceBusBridge.Job
 
                 var data = messages.Select(SignalCircleTransferEntity.Create).ToList();
 
-                await ctx.CircleTransferTable.UpsertRange(data)
-                    .On(e=>e.Id)
-                    .RunAsync();
+                await ctx.CircleTransferTable.AddRangeAsync(data);
 
-                _logger.LogInformation("HandleSignalCircleTransfer handled {count} ", data.Count);
+                _logger.LogInformation("{topic} handled {count} ",SignalCircleTransfer.ServiceBusTopicName ,data.Count);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Exception: HandleSignalCircleTransfer ");
+                _logger.LogError(e, "Exception: {topic} ", SignalCircleTransfer.ServiceBusTopicName);
                 throw;
             }
 

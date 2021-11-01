@@ -1,5 +1,6 @@
 using DotNetCoreDecorators;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Logging;
 using MyJetWallet.Domain.Prices;
 using Service.Authorization.Domain.Models.ServiceBus;
@@ -34,7 +35,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase
         
         public DbSet<ManualChangeBalanceMessage> ManualChangeBalanceOperationTable { get; set; }
         
-        public DbSet<ClientAuthenticationMessage> ClientAuthenticationTable { get; set; }
+        public DbSet<ClientAuthenticationMessageEntity> ClientAuthenticationTable { get; set; }
 
         public DbSet<SignalBitGoPendingApproval> SignalBitGoPendingApprovalTable { get; set; }
         
@@ -125,9 +126,10 @@ namespace Service.DwhServiceBusBridge.DwhDatabase
             modelBuilder.Entity<ManualChangeBalanceMessage>().HasKey(e => new { e.TransactionId });
             modelBuilder.Entity<ManualChangeBalanceMessage>().Property(e => e.TransactionId).ValueGeneratedNever();
 
-            modelBuilder.Entity<ClientAuthenticationMessage>().ToTable("JetWalletClientAuthentification");
-            modelBuilder.Entity<ClientAuthenticationMessage>().HasKey(e => new { e.TraderId });
-            modelBuilder.Entity<ClientAuthenticationMessage>().Property(e => e.TraderId).ValueGeneratedNever();
+            modelBuilder.Entity<ClientAuthenticationMessageEntity>().ToTable("JetWalletClientAuthentification");
+            modelBuilder.Entity<ClientAuthenticationMessageEntity>().HasKey(e => new { e.TraderId, e.Timestapm });
+            modelBuilder.Entity<ClientAuthenticationMessageEntity>().Property(e => e.TraderId).ValueGeneratedNever();
+            modelBuilder.Entity<ClientAuthenticationMessageEntity>().Property(e => e.Timestapm).ValueGeneratedNever();
 
             modelBuilder.Entity<SignalBitGoPendingApproval>().ToTable("BitgoPendingApprovalSignal");
             modelBuilder.Entity<SignalBitGoPendingApproval>().HasKey(e => new { e.PendingApprovalId });
@@ -167,6 +169,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase
             modelBuilder.Entity<Deposit>().ToTable("JetWalletCryptoDepositOperation");
             modelBuilder.Entity<Deposit>().HasKey(e => e.Id);
             modelBuilder.Entity<Deposit>().Property(e => e.Id).ValueGeneratedNever();
+            modelBuilder.Entity<Deposit>().Property(e=>e.LastError).IsRequired(false);
+            modelBuilder.Entity<Deposit>().Property(e => e.MatchingEngineId).IsRequired(false);
 
             modelBuilder.Entity<Withdrawal>().ToTable("JetWalletCryptoWithdrawalOperation");
             modelBuilder.Entity<Withdrawal>().HasKey(e => e.Id);

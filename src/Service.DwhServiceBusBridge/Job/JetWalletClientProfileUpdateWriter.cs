@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DotNetCoreDecorators;
@@ -30,16 +31,25 @@ namespace Service.DwhServiceBusBridge.Job
         
         private async ValueTask HadledProfileUpdate(IReadOnlyList<ClientProfileUpdateMessage> messages)
         {
-            await using var ctx = _dwhDbContextFactory.Create();
+            try
+            {
+                await using var ctx = _dwhDbContextFactory.Create();
 
-            var date = messages.Select(ClientProfileUpdateMessageEntity.Create).ToList();
+                var date = messages.Select(ClientProfileUpdateMessageEntity.Create).ToList();
 
-            await ctx.ClientProfileUpdateTable.UpsertRange(date)
-                .On(e=> new{e.ClientId, e.Timestamp})
-                .RunAsync();
+                await ctx.ClientProfileUpdateTable.UpsertRange(date)
+                    .On(e => new { e.ClientId, e.Timestamp })
+                    .RunAsync();
 
-            _logger.LogInformation("HadledProfileUpdate handled {count} profile update", messages.Count);
+                _logger.LogInformation("{topic} handled {count} profile update", ClientProfileUpdateMessage.TopicName,
+                    messages.Count);
 
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, " Exception {topic} ",ClientProfileUpdateMessage.TopicName);
+                throw;
+            }
         }
         
     }

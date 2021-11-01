@@ -44,11 +44,11 @@ namespace Service.DwhServiceBusBridge.Job
                 
                 await ctx.SaveChangesAsync();
 
-                _logger.LogInformation("HandleAuditTokenManagerSession handled {count} ", data.Count);
+                _logger.LogInformation("{topic} handled {count} ",SessionAuditEvent.TopicName ,data.Count);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Exception: HandleAuditTokenManagerSession ");
+                _logger.LogError(e, "Exception: {topic} ",SessionAuditEvent.TopicName);
                 throw;
             }
 
