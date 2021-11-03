@@ -181,8 +181,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase
             modelBuilder.Entity<WithdrawalVerifiedMessage>().Property(e => e.WithdrawalProcessId).ValueGeneratedNever();
 
             modelBuilder.Entity<Transfer>().ToTable("JetWalletTransferPhoneOperation");
-            modelBuilder.Entity<Transfer>().HasKey(e => e.Id);
-            modelBuilder.Entity<Transfer>().Property(e => e.Id).ValueGeneratedNever();            
+            modelBuilder.Entity<Transfer>().HasNoKey();         
             
             
             modelBuilder.Entity<TransferVerificationMessage>().ToTable("JetWalletTransferPhoneVerification");

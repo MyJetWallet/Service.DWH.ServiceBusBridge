@@ -96,7 +96,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     Status2FA = table.Column<int>(type: "int", nullable: false),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     PhoneConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    KYCPassed = table.Column<bool>(type: "bit", nullable: false)
+                    KYCPassed = table.Column<bool>(type: "bit", nullable: false),
+                    ReferralCode = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -169,7 +170,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     MeErrorCode = table.Column<int>(type: "int", nullable: false),
                     RefundTransactionId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Cancelling = table.Column<bool>(type: "bit", nullable: false),
-                    FeeRefundTransactionId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    FeeRefundTransactionId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Blockchain = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -218,7 +220,9 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     CalculationTimestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PaymentTimestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    ErrorMessage = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ErrorMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AssetId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReferrerWalletId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -234,8 +238,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     ReferrerClientId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FeeAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     FeeAsset = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FeeShareAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    FeeShareAmountInUsd = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FeeShareAmountInFeeAsset = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FeeShareAmountInTargetAsset = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TimeStamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     OperationId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PaymentTimestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -243,7 +247,10 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     ConverterWalletId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FeeShareWalletId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BrokerId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ErrorMessage = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ErrorMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FeeShareAsset = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FeeToTargetConversionRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ReferralClientId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -310,7 +317,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ReferrerClientId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SettlementDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ReleasedPnl = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    ReleasedPnl = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    OperationId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -466,7 +474,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JetWalletTransferPhoneOperation", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(

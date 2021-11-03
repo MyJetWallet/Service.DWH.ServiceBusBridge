@@ -45,14 +45,10 @@ namespace Service.DwhServiceBusBridge.Modules
     {
 
         private void RegisterMessageWriter<TMessage>(ContainerBuilder builder,
-            Func<DwhContext, DbSet<TMessage>> getterDbSet,
-            Expression<Func<TMessage, object>> match,
             string topicName) where TMessage : class
         {
             builder.RegisterType<MessageWriter<TMessage>>()
-                .WithParameter("getterDbSet", getterDbSet)
                 .WithParameter("topicName", topicName)
-                .WithParameter("match", match)
                 .SingleInstance().AutoActivate();
         }
 
@@ -69,7 +65,11 @@ namespace Service.DwhServiceBusBridge.Modules
             builder.RegisterType<DwhDbContextFactory>().As<IDwhDbContextFactory>().SingleInstance();
 
             builder.RegisterType<SpotBidAskWriter>().AsSelf().SingleInstance().AutoActivate();
+            
+            builder.RegisterMyServiceBusSubscriberBatch<BidAskServiceBusModel>(serviceBusClient,
+                "spot-bidask", queryName, TopicQueueType.DeleteOnDisconnect, 1000);
 
+            /*
             builder.RegisterMyServiceBusSubscriberBatch<SignalBitGoTransfer>(serviceBusClient,
                 SignalBitGoTransfer.ServiceBusTopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
             
@@ -134,12 +134,12 @@ namespace Service.DwhServiceBusBridge.Modules
                 PersonalDataUpdateMessage.TopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
             
             builder.RegisterType<PersonalDataUpdateWriter>().SingleInstance().AutoActivate();
-
+*/
             builder.RegisterMyServiceBusSubscriberBatch<Transfer>(serviceBusClient,
                 Transfer.TopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
             
-            RegisterMessageWriter(builder, ctx=>ctx.TransferTable,e=>e.Id,Transfer.TopicName);
-
+            RegisterMessageWriter<Transfer>(builder, Transfer.TopicName);
+/*
             builder.RegisterMyServiceBusSubscriberBatch<TransferVerificationMessage>(serviceBusClient,
                 TransferVerificationMessage.TopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
             
@@ -201,8 +201,7 @@ namespace Service.DwhServiceBusBridge.Modules
             
             RegisterMessageWriter(builder, ctx=> ctx.ManualChangeBalanceOperationTable,e=>e.TransactionId,ManualChangeBalanceMessage.TopicName );
 
-            builder.RegisterMyServiceBusSubscriberBatch<BidAskServiceBusModel>(serviceBusClient,
-                "spot-bidask", queryName, TopicQueueType.DeleteOnDisconnect, 1000);
+
 
             builder
                 .RegisterInstance(new MeEventServiceBusSubscriber(serviceBusClient,  queryName, TopicQueueType.PermanentWithSingleConnection))
@@ -215,7 +214,7 @@ namespace Service.DwhServiceBusBridge.Modules
                 SessionAuditEvent.TopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
             
             builder.RegisterType<TokenManagerAuditSessionWriter>().SingleInstance().AutoActivate();
-
+*/
         }
     }
 }
