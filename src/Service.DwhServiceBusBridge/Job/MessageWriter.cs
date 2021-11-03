@@ -33,7 +33,7 @@ namespace Service.DwhServiceBusBridge.Job
         {
             try
             {
-                DwhContext.LoggerFactory = Program.LogFactory;
+                //DwhContext.LoggerFactory = Program.LogFactory;
                 await using var ctx = _dwhDbContextFactory.Create();
 
                 await ctx.BulkInsertAsync(messages.ToList());
