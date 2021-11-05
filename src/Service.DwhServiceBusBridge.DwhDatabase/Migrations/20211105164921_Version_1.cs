@@ -15,12 +15,11 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 schema: "sbus",
                 columns: table => new
                 {
-                    PendingApprovalId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    WalletId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
+                    WalletId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PendingApprovalId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BitgoPendingApprovalSignal", x => x.PendingApprovalId);
                 });
 
             migrationBuilder.CreateTable(
@@ -28,13 +27,12 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 schema: "sbus",
                 columns: table => new
                 {
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     State = table.Column<int>(type: "int", nullable: false),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BitgoSessionUpdateSignal", x => x.UpdatedDate);
                 });
 
             migrationBuilder.CreateTable(
@@ -42,13 +40,12 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 schema: "sbus",
                 columns: table => new
                 {
-                    TransferId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Coin = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    WalletId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    WalletId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TransferId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BitgoTransferSignal", x => x.TransferId);
                 });
 
             migrationBuilder.CreateTable(
@@ -97,7 +94,9 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     PhoneConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     KYCPassed = table.Column<bool>(type: "bit", nullable: false),
-                    ReferralCode = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ReferralCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReferrerClientId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastChangeTimestamp = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -132,7 +131,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JetWalletCryptoDepositOperation", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -171,11 +169,12 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     RefundTransactionId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Cancelling = table.Column<bool>(type: "bit", nullable: false),
                     FeeRefundTransactionId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Blockchain = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Blockchain = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastTs = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ExternalSystemId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JetWalletCryptoWithdrawalOperation", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -183,12 +182,11 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 schema: "sbus",
                 columns: table => new
                 {
-                    WithdrawalProcessId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    WithdrawalProcessId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClientIp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JetWalletCryptoWithdrawalVerification", x => x.WithdrawalProcessId);
                 });
 
             migrationBuilder.CreateTable(
@@ -212,7 +210,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 schema: "sbus",
                 columns: table => new
                 {
-                    PaymentOperationId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ReferrerClientId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     PeriodFrom = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -220,13 +217,13 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     CalculationTimestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PaymentTimestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
+                    PaymentOperationId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ErrorMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AssetId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ReferrerWalletId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JetWalletFeeSharesPayment", x => x.PaymentOperationId);
                 });
 
             migrationBuilder.CreateTable(
@@ -234,7 +231,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 schema: "sbus",
                 columns: table => new
                 {
-                    FeeTransferOperationId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ReferrerClientId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FeeAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     FeeAsset = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -242,6 +238,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     FeeShareAmountInTargetAsset = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TimeStamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     OperationId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FeeTransferOperationId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PaymentTimestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     ConverterWalletId = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -254,7 +251,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JetWalletFeeShareTransfer", x => x.FeeTransferOperationId);
                 });
 
             migrationBuilder.CreateTable(
@@ -262,7 +258,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 schema: "sbus",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MessageId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BrokerId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -279,7 +275,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JetwalletLiquidityConvertorSwap", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -299,7 +294,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JetwalletLiquidityPortfolioChangebalancehistory", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -322,7 +316,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JetwalletLiquidityPortfolioFeesharesettlement", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -344,7 +337,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JetwalletLiquidityPortfolioManualsettlement", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -378,7 +370,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JetwalletLiquidityPortfolioTrades", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -386,18 +377,18 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 schema: "sbus",
                 columns: table => new
                 {
-                    TransactionId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TransactionId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClientId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     WalletId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Amount = table.Column<double>(type: "float", nullable: false),
                     AssetSymbol = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BrokerId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Type = table.Column<int>(type: "int", nullable: false)
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    TimeStamp = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JetWalletManualBalanceChangeOperation", x => x.TransactionId);
                 });
 
             migrationBuilder.CreateTable(
@@ -433,13 +424,12 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 schema: "sbus",
                 columns: table => new
                 {
-                    TraderId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TraderId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IpAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserAgent = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JetwalletRegistrationSuccess", x => x.TraderId);
                 });
 
             migrationBuilder.CreateTable(
@@ -481,12 +471,11 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 schema: "sbus",
                 columns: table => new
                 {
-                    TransferId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TransferId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClientIp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JetWalletTransferPhoneVerification", x => x.TransferId);
                 });
 
             migrationBuilder.CreateTable(
@@ -512,7 +501,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 schema: "sbus",
                 columns: table => new
                 {
-                    TransactionId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TransactionId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BrokerId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     WalletId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClientId = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -522,7 +511,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PaidInterestRate", x => x.TransactionId);
                 });
 
             migrationBuilder.CreateTable(
@@ -605,7 +593,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 schema: "sbus",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ReferenceId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Market = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Side = table.Column<int>(type: "int", nullable: false),
@@ -627,7 +615,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TradeHedger", x => x.Id);
                 });
         }
 

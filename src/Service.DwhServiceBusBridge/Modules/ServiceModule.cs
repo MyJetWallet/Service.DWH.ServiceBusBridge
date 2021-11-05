@@ -69,47 +69,47 @@ namespace Service.DwhServiceBusBridge.Modules
             builder.RegisterMyServiceBusSubscriberBatch<BidAskServiceBusModel>(serviceBusClient,
                 "spot-bidask", queryName, TopicQueueType.DeleteOnDisconnect, 1000);
 
-            /*
+            
             builder.RegisterMyServiceBusSubscriberBatch<SignalBitGoTransfer>(serviceBusClient,
                 SignalBitGoTransfer.ServiceBusTopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
             
-            RegisterMessageWriter(builder, ctx => ctx.SignalBitGoTransfersTable,e=>e.TransferId, SignalBitGoTransfer.ServiceBusTopicName);
-
+            RegisterMessageWriter<SignalBitGoTransfer>(builder, SignalBitGoTransfer.ServiceBusTopicName);
+            
+            
             builder.RegisterMyServiceBusSubscriberBatch<SignalBitGoPendingApproval>(serviceBusClient,
                 SignalBitGoPendingApproval.ServiceBusTopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
-            
-            RegisterMessageWriter(builder,ctx => ctx.SignalBitGoPendingApprovalTable,e=>e.PendingApprovalId,SignalBitGoPendingApproval.ServiceBusTopicName);
 
+            RegisterMessageWriter<SignalBitGoPendingApproval>(builder, SignalBitGoPendingApproval.ServiceBusTopicName);
+            
+            
             
             builder.RegisterMyServiceBusSubscriberBatch<SignalCircleTransfer>(serviceBusClient,
                 SignalCircleTransfer.ServiceBusTopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
 
             builder.RegisterType<SignalCircleTransferWriter>().SingleInstance().AutoActivate();
             
-
+            
             builder.RegisterMyServiceBusSubscriberBatch<SignalBitGoSessionStateUpdate>(serviceBusClient,
                 SignalBitGoSessionStateUpdate.ServiceBusTopicName, queryName,
                 TopicQueueType.PermanentWithSingleConnection);
             
-            RegisterMessageWriter(builder,ctx => ctx.SignalBitGoSessionStateUpdateTable,e=>e.UpdatedDate,SignalBitGoSessionStateUpdate.ServiceBusTopicName);
-
+            RegisterMessageWriter<SignalBitGoSessionStateUpdate>(builder, SignalBitGoSessionStateUpdate.ServiceBusTopicName);
+            
             builder.RegisterMyServiceBusSubscriberBatch<FeeShareEntity>(serviceBusClient,
                 FeeShareEntity.TopicName,queryName,TopicQueueType.PermanentWithSingleConnection);
             
-            RegisterMessageWriter(builder, ctx => ctx.FeeShareTable,e=>e.FeeTransferOperationId,FeeShareEntity.TopicName);
-
+            RegisterMessageWriter<FeeShareEntity>(builder, FeeShareEntity.TopicName);
+            
             builder.RegisterMyServiceBusSubscriberBatch<FeePaymentEntity>(serviceBusClient,
                 FeePaymentEntity.TopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
             
-            RegisterMessageWriter(builder,ctx=> ctx.FeePaymentTable, e=>e.PaymentOperationId,FeePaymentEntity.TopicName);
+            RegisterMessageWriter<FeePaymentEntity>(builder, FeePaymentEntity.TopicName);
 
             builder.RegisterMyServiceBusSubscriberBatch<ClientAuthenticationMessage>(serviceBusClient,
                 ClientAuthenticationMessage.TopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
 
             builder.RegisterType<ClientAuthenticationMessageWriter>().SingleInstance().AutoActivate();
             
-            //RegisterMessageWriter(builder, ctx=> ctx.ClientAuthenticationTable,e=>e.TraderId,ClientAuthenticationMessage.TopicName );
-
             builder.RegisterMyServiceBusSubscriberBatch<ClientProfileUpdateMessage>(serviceBusClient,
                 ClientProfileUpdateMessage.TopicName,queryName, TopicQueueType.PermanentWithSingleConnection);
             
@@ -118,57 +118,57 @@ namespace Service.DwhServiceBusBridge.Modules
             builder.RegisterMyServiceBusSubscriberBatch<Deposit>(serviceBusClient,
                 Deposit.TopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
             
-            RegisterMessageWriter(builder, ctx=> ctx.DepositTable,e=>e.Id,Deposit.TopicName);
+            RegisterMessageWriter<Deposit>(builder, Deposit.TopicName);
 
             builder.RegisterMyServiceBusSubscriberBatch<Withdrawal>(serviceBusClient,
                 Withdrawal.TopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
             
-            RegisterMessageWriter(builder, ctx=>ctx.WithdrawalTable,e=>e.Id,Withdrawal.TopicName);
+            RegisterMessageWriter<Withdrawal>(builder, Withdrawal.TopicName);
 
             builder.RegisterMyServiceBusSubscriberBatch<WithdrawalVerifiedMessage>(serviceBusClient,
                 WithdrawalVerifiedMessage.TopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
             
-            RegisterMessageWriter(builder, ctx=> ctx.WithdrawalVerifiedTable,e=>e.WithdrawalProcessId, WithdrawalVerifiedMessage.TopicName);
+            RegisterMessageWriter<WithdrawalVerifiedMessage>(builder, WithdrawalVerifiedMessage.TopicName);
 
             builder.RegisterMyServiceBusSubscriberBatch<PersonalDataUpdateMessage>(serviceBusClient,
                 PersonalDataUpdateMessage.TopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
             
             builder.RegisterType<PersonalDataUpdateWriter>().SingleInstance().AutoActivate();
-*/
+
             builder.RegisterMyServiceBusSubscriberBatch<Transfer>(serviceBusClient,
                 Transfer.TopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
             
             RegisterMessageWriter<Transfer>(builder, Transfer.TopicName);
-/*
+
             builder.RegisterMyServiceBusSubscriberBatch<TransferVerificationMessage>(serviceBusClient,
                 TransferVerificationMessage.TopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
             
-            RegisterMessageWriter(builder, ctx=>ctx.TransferVerificationTable,e=>e.TransferId,TransferVerificationMessage.TopicName);
+            RegisterMessageWriter<TransferVerificationMessage>(builder, TransferVerificationMessage.TopicName);
 
             builder.RegisterMyServiceBusSubscriberBatch<SwapMessage>(serviceBusClient,
                 SwapMessage.TopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
             
-            RegisterMessageWriter(builder, ctx=>ctx.SwapMessageTable,e=>e.Id, SwapMessage.TopicName);
+            RegisterMessageWriter<SwapMessage>(builder, SwapMessage.TopicName);
 
             builder.RegisterMyServiceBusSubscriberBatch<ChangeBalanceHistory>(serviceBusClient,
                 ChangeBalanceHistory.TopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
             
-            RegisterMessageWriter(builder, ctx=>ctx.ChangeBalanceHistoryTable, e=>e.Id,ChangeBalanceHistory.TopicName );
+            RegisterMessageWriter<ChangeBalanceHistory>(builder, ChangeBalanceHistory.TopicName);
 
             builder.RegisterMyServiceBusSubscriberBatch<FeeShareSettlement>(serviceBusClient,
                 FeeShareSettlement.TopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
             
-            RegisterMessageWriter(builder, ctx=>ctx.FeeShareSettlementTable,e=>e.Id, FeeShareSettlement.TopicName);
+            RegisterMessageWriter<FeeShareSettlement>(builder, FeeShareSettlement.TopicName);
 
             builder.RegisterMyServiceBusSubscriberBatch<ManualSettlement>(serviceBusClient,
                 ManualSettlement.TopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
             
-            RegisterMessageWriter(builder, ctx=>ctx.ManualSettlementTable,e=>e.Id, ManualSettlement.TopicName);
+            RegisterMessageWriter<ManualSettlement>(builder, ManualSettlement.TopicName);
 
             builder.RegisterMyServiceBusSubscriberBatch<AssetPortfolioTrade>(serviceBusClient,
                 AssetPortfolioTrade.TopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
             
-            RegisterMessageWriter(builder, ctx=>ctx.AssetPortfolioTradeTable, e=>e.Id,AssetPortfolioTrade.TopicName);
+            RegisterMessageWriter<AssetPortfolioTrade>(builder, AssetPortfolioTrade.TopicName);
 
             builder.RegisterMyServiceBusSubscriberBatch<ClientRegisterFailAlreadyExistsMessage>(serviceBusClient,
                 ClientRegisterFailAlreadyExistsMessage.TopicName, queryName,
@@ -179,12 +179,12 @@ namespace Service.DwhServiceBusBridge.Modules
             builder.RegisterMyServiceBusSubscriberBatch<ClientRegisterMessage>(serviceBusClient,
                 ClientRegisterMessage.TopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
             
-            RegisterMessageWriter(builder, ctx=> ctx.ClientRegisterTable,e=>e.TraderId,ClientRegisterMessage.TopicName);
+            RegisterMessageWriter<ClientRegisterMessage>(builder, ClientRegisterMessage.TopicName);
 
             builder.RegisterMyServiceBusSubscriberBatch<PaidInterestRateMessage>(serviceBusClient,
                 PaidInterestRateMessage.TopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
             
-            RegisterMessageWriter(builder, ctx=>ctx.PaidInterestRateTable,e=>e.TransactionId, PaidInterestRateMessage.TopicName);
+            RegisterMessageWriter<PaidInterestRateMessage>(builder, PaidInterestRateMessage.TopicName);
 
             builder.RegisterMyServiceBusSubscriberBatch<WalletTradeMessage>(serviceBusClient,
                 WalletTradeMessage.TopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
@@ -194,15 +194,13 @@ namespace Service.DwhServiceBusBridge.Modules
             builder.RegisterMyServiceBusSubscriberBatch<TradeMessage>(serviceBusClient,
                 TradeMessage.TopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
             
-            RegisterMessageWriter(builder, ctx=>ctx.TradeMessageTable, e=>e.Id,TradeMessage.TopicName);
+            RegisterMessageWriter<TradeMessage>(builder, TradeMessage.TopicName);
 
             builder.RegisterMyServiceBusSubscriberBatch<ManualChangeBalanceMessage>(serviceBusClient,
                 "jet-wallet-manual-balance-change-operation", queryName, TopicQueueType.PermanentWithSingleConnection);
             
-            RegisterMessageWriter(builder, ctx=> ctx.ManualChangeBalanceOperationTable,e=>e.TransactionId,ManualChangeBalanceMessage.TopicName );
-
-
-
+            RegisterMessageWriter<ManualChangeBalanceMessage>(builder, ManualChangeBalanceMessage.TopicName);
+            
             builder
                 .RegisterInstance(new MeEventServiceBusSubscriber(serviceBusClient,  queryName, TopicQueueType.PermanentWithSingleConnection))
                 .As<ISubscriber<IReadOnlyList<OutgoingEvent>>>()
@@ -214,7 +212,7 @@ namespace Service.DwhServiceBusBridge.Modules
                 SessionAuditEvent.TopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
             
             builder.RegisterType<TokenManagerAuditSessionWriter>().SingleInstance().AutoActivate();
-*/
+
         }
     }
 }
