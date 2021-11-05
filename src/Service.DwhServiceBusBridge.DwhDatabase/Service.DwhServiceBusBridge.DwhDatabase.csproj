@@ -22,7 +22,7 @@
       <PackageReference Include="MyJetWallet.Service.BitGo.SignTransaction.Client" Version="1.2.9" />
       <PackageReference Include="MyJetWallet.Service.Bitgo.Webhooks.Client" Version="1.0.1" />
       <PackageReference Include="MyJetWallet.Service.Bitgo.WithdrawalProcessor.Client" Version="2.0.2" />
-      <PackageReference Include="MyJetWallet.Service.ChangeBalanceGateway.Client" Version="1.7.8" />
+      <PackageReference Include="MyJetWallet.Service.ChangeBalanceGateway.Client" Version="1.7.9" />
       <PackageReference Include="MyJetWallet.Service.Circle.Webhooks.Client" Version="2.0.0" />
       <PackageReference Include="MyJetWallet.Service.ClientProfile.Client" Version="1.0.8" />
       <PackageReference Include="MyJetWallet.Service.EmailSender.Client" Version="1.0.1" />
