@@ -6,7 +6,6 @@ using Autofac;
 using Autofac.Core;
 using Autofac.Core.Registration;
 using DotNetCoreDecorators;
-using ME.Contracts.OutgoingMessages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MyJetWallet.Domain.Prices;
@@ -201,13 +200,6 @@ namespace Service.DwhServiceBusBridge.Modules
             
             RegisterMessageWriter<ManualChangeBalanceMessage>(builder, ManualChangeBalanceMessage.TopicName);
             
-            builder
-                .RegisterInstance(new MeEventServiceBusSubscriber(serviceBusClient,  queryName, TopicQueueType.PermanentWithSingleConnection))
-                .As<ISubscriber<IReadOnlyList<OutgoingEvent>>>()
-                .SingleInstance();
-
-            builder.RegisterType<MeEventWriter>().SingleInstance().AutoActivate();
-
             builder.RegisterMyServiceBusSubscriberBatch<SessionAuditEvent>(serviceBusClient,
                 SessionAuditEvent.TopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
             
