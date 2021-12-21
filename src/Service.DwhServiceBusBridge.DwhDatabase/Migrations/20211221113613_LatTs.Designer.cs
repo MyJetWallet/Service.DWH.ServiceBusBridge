@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Service.DwhServiceBusBridge.DwhDatabase;
 
@@ -11,9 +12,10 @@ using Service.DwhServiceBusBridge.DwhDatabase;
 namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 {
     [DbContext(typeof(DwhContext))]
-    partial class DwhContextModelSnapshot : ModelSnapshot
+    [Migration("20211221113613_LatTs")]
+    partial class LatTs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
