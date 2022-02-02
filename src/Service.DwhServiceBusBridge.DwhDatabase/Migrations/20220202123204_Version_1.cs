@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 {
     public partial class Version_1 : Migration
@@ -96,7 +98,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     KYCPassed = table.Column<bool>(type: "bit", nullable: false),
                     ReferralCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ReferrerClientId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastChangeTimestamp = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    LastTs = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -113,7 +115,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     ClientId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     WalletId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TransactionId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Amount = table.Column<double>(type: "float", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     AssetSymbol = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Integration = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -124,10 +126,10 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     RetriesCount = table.Column<int>(type: "int", nullable: false),
                     EventDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FeeAmount = table.Column<double>(type: "float", nullable: false),
+                    FeeAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     FeeAssetSymbol = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CardLast4 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Network = table.Column<int>(type: "int", nullable: false)
+                    Network = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -143,7 +145,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     ClientId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     WalletId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TransactionId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Amount = table.Column<double>(type: "float", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     AssetSymbol = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Integration = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -158,9 +160,9 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     ClientIp = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NotificationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     WorkflowState = table.Column<int>(type: "int", nullable: false),
-                    FeeAmount = table.Column<double>(type: "float", nullable: false),
+                    FeeAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     FeeAssetSymbol = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ActualFee = table.Column<double>(type: "float", nullable: false),
+                    ActualFee = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ActualFeeAssetSymbol = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsInternal = table.Column<bool>(type: "bit", nullable: false),
                     DestinationWalletId = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -171,7 +173,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     FeeRefundTransactionId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Blockchain = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastTs = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ExternalSystemId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ExternalSystemId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ToTag = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -220,7 +223,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     PaymentOperationId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ErrorMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AssetId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ReferrerWalletId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ReferrerWalletId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastTs = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -247,7 +251,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     ErrorMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FeeShareAsset = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FeeToTargetConversionRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ReferralClientId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ReferralClientId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastTs = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -380,9 +385,10 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     TransactionId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClientId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     WalletId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Amount = table.Column<double>(type: "float", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     AssetSymbol = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Officer = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BrokerId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Type = table.Column<int>(type: "int", nullable: false),
                     TimeStamp = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -442,7 +448,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     ClientId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     WalletId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TransactionId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Amount = table.Column<double>(type: "float", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     AssetSymbol = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SenderPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DestinationPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -460,7 +466,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     RefundTransactionId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Cancelling = table.Column<bool>(type: "bit", nullable: false),
                     MeErrorCode = table.Column<int>(type: "int", nullable: false),
-                    SenderName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    SenderName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastTs = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {

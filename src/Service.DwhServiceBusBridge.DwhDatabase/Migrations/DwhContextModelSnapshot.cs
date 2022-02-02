@@ -47,8 +47,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 
             modelBuilder.Entity("Service.Bitgo.DepositDetector.Domain.Models.Deposit", b =>
                 {
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("AssetSymbol")
                         .IsRequired()
@@ -73,8 +73,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<DateTime>("EventDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("FeeAmount")
-                        .HasColumnType("float");
+                    b.Property<decimal>("FeeAmount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("FeeAssetSymbol")
                         .IsRequired()
@@ -162,14 +162,14 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 
             modelBuilder.Entity("Service.Bitgo.WithdrawalProcessor.Domain.Models.Withdrawal", b =>
                 {
-                    b.Property<double>("ActualFee")
-                        .HasColumnType("float");
+                    b.Property<decimal>("ActualFee")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ActualFeeAssetSymbol")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("AssetSymbol")
                         .HasColumnType("nvarchar(max)");
@@ -207,8 +207,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<string>("ExternalSystemId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("FeeAmount")
-                        .HasColumnType("float");
+                    b.Property<decimal>("FeeAmount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("FeeAssetSymbol")
                         .HasColumnType("nvarchar(max)");
@@ -252,6 +252,9 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<string>("ToAddress")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ToTag")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("TransactionId")
                         .HasColumnType("nvarchar(max)");
 
@@ -280,8 +283,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 
             modelBuilder.Entity("Service.ChangeBalanceGateway.Grpc.Models.ManualChangeBalanceMessage", b =>
                 {
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("AssetSymbol")
                         .HasColumnType("nvarchar(max)");
@@ -293,6 +296,9 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Officer")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("TimeStamp")
@@ -664,8 +670,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 
             modelBuilder.Entity("Service.InternalTransfer.Domain.Models.Transfer", b =>
                 {
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("AssetSymbol")
                         .HasColumnType("nvarchar(max)");

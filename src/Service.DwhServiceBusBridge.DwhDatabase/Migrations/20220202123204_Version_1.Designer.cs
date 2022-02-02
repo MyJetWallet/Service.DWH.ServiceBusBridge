@@ -7,10 +7,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Service.DwhServiceBusBridge.DwhDatabase;
 
+#nullable disable
+
 namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 {
     [DbContext(typeof(DwhContext))]
-    [Migration("20211105164921_Version_1")]
+    [Migration("20220202123204_Version_1")]
     partial class Version_1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,9 +20,10 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("sbus")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.11")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("MyJetWallet.Domain.Prices.BidAsk", b =>
                 {
@@ -41,27 +44,13 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 
                     b.HasKey("Id", "LiquidityProvider");
 
-                    b.ToTable("JetwalletExternalPrices");
-                });
-
-            modelBuilder.Entity("Service.BitGo.SignTransaction.Domain.Models.SignalBitGoSessionStateUpdate", b =>
-                {
-                    b.Property<int>("State")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.ToTable("BitgoSessionUpdateSignal");
+                    b.ToTable("JetwalletExternalPrices", "sbus");
                 });
 
             modelBuilder.Entity("Service.Bitgo.DepositDetector.Domain.Models.Deposit", b =>
                 {
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("AssetSymbol")
                         .IsRequired()
@@ -86,8 +75,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<DateTime>("EventDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("FeeAmount")
-                        .HasColumnType("float");
+                    b.Property<decimal>("FeeAmount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("FeeAssetSymbol")
                         .IsRequired()
@@ -106,8 +95,9 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<string>("MatchingEngineId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Network")
-                        .HasColumnType("int");
+                    b.Property<string>("Network")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RetriesCount")
                         .HasColumnType("int");
@@ -130,7 +120,21 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("JetWalletCryptoDepositOperation");
+                    b.ToTable("JetWalletCryptoDepositOperation", "sbus");
+                });
+
+            modelBuilder.Entity("Service.BitGo.SignTransaction.Domain.Models.SignalBitGoSessionStateUpdate", b =>
+                {
+                    b.Property<int>("State")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.ToTable("BitgoSessionUpdateSignal", "sbus");
                 });
 
             modelBuilder.Entity("Service.Bitgo.Webhooks.Domain.Models.SignalBitGoPendingApproval", b =>
@@ -141,7 +145,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<string>("WalletId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("BitgoPendingApprovalSignal");
+                    b.ToTable("BitgoPendingApprovalSignal", "sbus");
                 });
 
             modelBuilder.Entity("Service.Bitgo.Webhooks.Domain.Models.SignalBitGoTransfer", b =>
@@ -155,19 +159,19 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<string>("WalletId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("BitgoTransferSignal");
+                    b.ToTable("BitgoTransferSignal", "sbus");
                 });
 
             modelBuilder.Entity("Service.Bitgo.WithdrawalProcessor.Domain.Models.Withdrawal", b =>
                 {
-                    b.Property<double>("ActualFee")
-                        .HasColumnType("float");
+                    b.Property<decimal>("ActualFee")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ActualFeeAssetSymbol")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("AssetSymbol")
                         .HasColumnType("nvarchar(max)");
@@ -205,8 +209,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<string>("ExternalSystemId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("FeeAmount")
-                        .HasColumnType("float");
+                    b.Property<decimal>("FeeAmount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("FeeAssetSymbol")
                         .HasColumnType("nvarchar(max)");
@@ -250,6 +254,9 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<string>("ToAddress")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ToTag")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("TransactionId")
                         .HasColumnType("nvarchar(max)");
 
@@ -262,7 +269,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<int>("WorkflowState")
                         .HasColumnType("int");
 
-                    b.ToTable("JetWalletCryptoWithdrawalOperation");
+                    b.ToTable("JetWalletCryptoWithdrawalOperation", "sbus");
                 });
 
             modelBuilder.Entity("Service.Bitgo.WithdrawalProcessor.Domain.Models.WithdrawalVerifiedMessage", b =>
@@ -273,13 +280,13 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<string>("WithdrawalProcessId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("JetWalletCryptoWithdrawalVerification");
+                    b.ToTable("JetWalletCryptoWithdrawalVerification", "sbus");
                 });
 
             modelBuilder.Entity("Service.ChangeBalanceGateway.Grpc.Models.ManualChangeBalanceMessage", b =>
                 {
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("AssetSymbol")
                         .HasColumnType("nvarchar(max)");
@@ -291,6 +298,9 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Officer")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("TimeStamp")
@@ -305,7 +315,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<string>("WalletId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("JetWalletManualBalanceChangeOperation");
+                    b.ToTable("JetWalletManualBalanceChangeOperation", "sbus");
                 });
 
             modelBuilder.Entity("Service.DwhServiceBusBridge.DwhDatabase.ClientAuthenticationMessageEntity", b =>
@@ -330,7 +340,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 
                     b.HasKey("TraderId", "Timestapm");
 
-                    b.ToTable("JetWalletClientAuthentification");
+                    b.ToTable("JetWalletClientAuthentification", "sbus");
                 });
 
             modelBuilder.Entity("Service.DwhServiceBusBridge.DwhDatabase.ClientProfileUpdateMessageEntity", b =>
@@ -353,7 +363,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<bool>("KYCPassed")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("LastChangeTimestamp")
+                    b.Property<DateTime>("LastTs")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("OldProfileJson")
@@ -377,7 +387,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 
                     b.HasKey("ClientId", "Timestamp", "Id");
 
-                    b.ToTable("JetWalletClientProfileUpdate");
+                    b.ToTable("JetWalletClientProfileUpdate", "sbus");
                 });
 
             modelBuilder.Entity("Service.DwhServiceBusBridge.DwhDatabase.ClientRegisterFailAlreadyExistsEntity", b =>
@@ -396,7 +406,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 
                     b.HasKey("Timestamp");
 
-                    b.ToTable("JetwalletRegistrationFailedAlreadyExists");
+                    b.ToTable("JetwalletRegistrationFailedAlreadyExists", "sbus");
                 });
 
             modelBuilder.Entity("Service.DwhServiceBusBridge.DwhDatabase.MeEventEntity", b =>
@@ -424,7 +434,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 
                     b.HasKey("MessageId");
 
-                    b.ToTable("MeEvent");
+                    b.ToTable("MeEvent", "sbus");
                 });
 
             modelBuilder.Entity("Service.DwhServiceBusBridge.DwhDatabase.PersonalDataUpdateEntity", b =>
@@ -437,22 +447,23 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 
                     b.HasKey("Timestamp");
 
-                    b.ToTable("JetWalletPersonalDataUpdate");
+                    b.ToTable("JetWalletPersonalDataUpdate", "sbus");
                 });
 
             modelBuilder.Entity("Service.DwhServiceBusBridge.DwhDatabase.SignalCircleTransferEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<string>("Json")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("CircleTransferSignal");
+                    b.ToTable("CircleTransferSignal", "sbus");
                 });
 
             modelBuilder.Entity("Service.DwhServiceBusBridge.DwhDatabase.TestEntity", b =>
@@ -469,15 +480,16 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("test_table");
+                    b.ToTable("test_table", "sbus");
                 });
 
             modelBuilder.Entity("Service.DwhServiceBusBridge.DwhDatabase.TokenManagerAuditSessionEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<string>("Action")
                         .HasMaxLength(20)
@@ -530,7 +542,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TokensManagerAuditSession");
+                    b.ToTable("TokensManagerAuditSession", "sbus");
                 });
 
             modelBuilder.Entity("Service.DwhServiceBusBridge.DwhDatabase.WalletTradeMassageEntity", b =>
@@ -555,7 +567,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 
                     b.HasKey("TraderUId", "DateTime");
 
-                    b.ToTable("SpotTrades");
+                    b.ToTable("SpotTrades", "sbus");
                 });
 
             modelBuilder.Entity("Service.FeeShareEngine.Domain.Models.Models.FeePaymentEntity", b =>
@@ -571,6 +583,9 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 
                     b.Property<string>("ErrorMessage")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("LastTs")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PaymentOperationId")
                         .HasColumnType("nvarchar(max)");
@@ -593,7 +608,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.ToTable("JetWalletFeeSharesPayment");
+                    b.ToTable("JetWalletFeeSharesPayment", "sbus");
                 });
 
             modelBuilder.Entity("Service.FeeShareEngine.Domain.Models.Models.FeeShareEntity", b =>
@@ -631,6 +646,9 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<string>("FeeTransferOperationId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("LastTs")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("OperationId")
                         .HasColumnType("nvarchar(max)");
 
@@ -649,13 +667,13 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<DateTime>("TimeStamp")
                         .HasColumnType("datetime2");
 
-                    b.ToTable("JetWalletFeeShareTransfer");
+                    b.ToTable("JetWalletFeeShareTransfer", "sbus");
                 });
 
             modelBuilder.Entity("Service.InternalTransfer.Domain.Models.Transfer", b =>
                 {
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("AssetSymbol")
                         .HasColumnType("nvarchar(max)");
@@ -693,6 +711,9 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<string>("LastError")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("LastTs")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("MatchingEngineId")
                         .HasColumnType("nvarchar(max)");
 
@@ -726,7 +747,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<int>("WorkflowState")
                         .HasColumnType("int");
 
-                    b.ToTable("JetWalletTransferPhoneOperation");
+                    b.ToTable("JetWalletTransferPhoneOperation", "sbus");
                 });
 
             modelBuilder.Entity("Service.InternalTransfer.Domain.Models.TransferVerificationMessage", b =>
@@ -737,7 +758,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<string>("TransferId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("JetWalletTransferPhoneVerification");
+                    b.ToTable("JetWalletTransferPhoneVerification", "sbus");
                 });
 
             modelBuilder.Entity("Service.IntrestManager.Domain.Models.PaidInterestRateMessage", b =>
@@ -763,7 +784,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<string>("WalletId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("PaidInterestRate");
+                    b.ToTable("PaidInterestRate", "sbus");
                 });
 
             modelBuilder.Entity("Service.Liquidity.Converter.Domain.Models.SwapMessage", b =>
@@ -810,7 +831,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<string>("WalletId2")
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("JetwalletLiquidityConvertorSwap");
+                    b.ToTable("JetwalletLiquidityConvertorSwap", "sbus");
                 });
 
             modelBuilder.Entity("Service.Liquidity.Portfolio.Domain.Models.AssetPortfolioTrade", b =>
@@ -884,7 +905,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<string>("WalletName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("JetwalletLiquidityPortfolioTrades");
+                    b.ToTable("JetwalletLiquidityPortfolioTrades", "sbus");
                 });
 
             modelBuilder.Entity("Service.Liquidity.Portfolio.Domain.Models.ChangeBalanceHistory", b =>
@@ -916,7 +937,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<string>("WalletName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("JetwalletLiquidityPortfolioChangebalancehistory");
+                    b.ToTable("JetwalletLiquidityPortfolioChangebalancehistory", "sbus");
                 });
 
             modelBuilder.Entity("Service.Liquidity.Portfolio.Domain.Models.FeeShareSettlement", b =>
@@ -957,7 +978,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<string>("WalletTo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("JetwalletLiquidityPortfolioFeesharesettlement");
+                    b.ToTable("JetwalletLiquidityPortfolioFeesharesettlement", "sbus");
                 });
 
             modelBuilder.Entity("Service.Liquidity.Portfolio.Domain.Models.ManualSettlement", b =>
@@ -995,7 +1016,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<string>("WalletTo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("JetwalletLiquidityPortfolioManualsettlement");
+                    b.ToTable("JetwalletLiquidityPortfolioManualsettlement", "sbus");
                 });
 
             modelBuilder.Entity("Service.Liquidity.PortfolioHedger.Domain.Models.TradeMessage", b =>
@@ -1057,7 +1078,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<decimal>("Volume")
                         .HasColumnType("decimal(18,2)");
 
-                    b.ToTable("TradeHedger");
+                    b.ToTable("TradeHedger", "sbus");
                 });
 
             modelBuilder.Entity("Service.Registration.Domain.Models.ClientRegisterMessage", b =>
@@ -1071,7 +1092,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<string>("UserAgent")
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("JetwalletRegistrationSuccess");
+                    b.ToTable("JetwalletRegistrationSuccess", "sbus");
                 });
 
             modelBuilder.Entity("SimpleTrading.ServiceBus.Models.BidAskServiceBusModel", b =>
@@ -1090,7 +1111,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SpotBidAsk");
+                    b.ToTable("SpotBidAsk", "sbus");
                 });
 #pragma warning restore 612, 618
         }
