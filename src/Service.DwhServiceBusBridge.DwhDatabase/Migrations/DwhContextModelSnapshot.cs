@@ -59,7 +59,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CardLast4")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClientId")

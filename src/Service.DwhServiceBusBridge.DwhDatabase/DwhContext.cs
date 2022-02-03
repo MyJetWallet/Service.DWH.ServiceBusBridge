@@ -163,6 +163,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase
             modelBuilder.Entity<Deposit>().HasNoKey();
             modelBuilder.Entity<Deposit>().Property(e => e.MatchingEngineId).IsRequired(false);
             modelBuilder.Entity<Deposit>().Property(e => e.LastError).IsRequired(false);
+            modelBuilder.Entity<Deposit>().Property(e => e.CardLast4).IsRequired(false);
 
             modelBuilder.Entity<Withdrawal>().ToTable("JetWalletCryptoWithdrawalOperation");
             modelBuilder.Entity<Withdrawal>().HasNoKey();
