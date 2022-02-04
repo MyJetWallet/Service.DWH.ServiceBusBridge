@@ -48,7 +48,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
             modelBuilder.Entity("Service.Bitgo.DepositDetector.Domain.Models.Deposit", b =>
                 {
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<string>("AssetSymbol")
                         .IsRequired()
@@ -73,7 +74,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("FeeAmount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<string>("FeeAssetSymbol")
                         .IsRequired()
@@ -162,13 +164,15 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
             modelBuilder.Entity("Service.Bitgo.WithdrawalProcessor.Domain.Models.Withdrawal", b =>
                 {
                     b.Property<decimal>("ActualFee")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<string>("ActualFeeAssetSymbol")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<string>("AssetSymbol")
                         .HasColumnType("nvarchar(max)");
@@ -207,7 +211,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("FeeAmount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<string>("FeeAssetSymbol")
                         .HasColumnType("nvarchar(max)");
@@ -283,7 +288,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
             modelBuilder.Entity("Service.ChangeBalanceGateway.Grpc.Models.ManualChangeBalanceMessage", b =>
                 {
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<string>("AssetSymbol")
                         .HasColumnType("nvarchar(max)");
@@ -570,7 +576,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
             modelBuilder.Entity("Service.FeeShareEngine.Domain.Models.Models.FeePaymentEntity", b =>
                 {
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<string>("AssetId")
                         .HasColumnType("nvarchar(max)");
@@ -620,16 +627,19 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("FeeAmount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<string>("FeeAsset")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("FeeShareAmountInFeeAsset")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<decimal>("FeeShareAmountInTargetAsset")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<string>("FeeShareAsset")
                         .HasColumnType("nvarchar(max)");
@@ -638,7 +648,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("FeeToTargetConversionRate")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<string>("FeeTransferOperationId")
                         .HasColumnType("nvarchar(max)");
@@ -670,7 +681,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
             modelBuilder.Entity("Service.InternalTransfer.Domain.Models.Transfer", b =>
                 {
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<string>("AssetSymbol")
                         .HasColumnType("nvarchar(max)");
@@ -761,7 +773,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
             modelBuilder.Entity("Service.IntrestManager.Domain.Models.PaidInterestRateMessage", b =>
                 {
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<string>("BrokerId")
                         .HasColumnType("nvarchar(max)");
@@ -805,7 +818,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("DifferenceVolumeAbs")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(max)");
@@ -843,13 +857,16 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("BaseAssetPriceInUsd")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<decimal>("BaseVolume")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<decimal>("BaseVolumeInUsd")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
@@ -864,25 +881,30 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("FeeVolume")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<long>("Id")
                         .HasColumnType("bigint");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<string>("QuoteAsset")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("QuoteAssetPriceInUsd")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<decimal>("QuoteVolume")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<decimal>("QuoteVolumeInUsd")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<int>("Side")
                         .HasColumnType("int");
@@ -891,7 +913,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TotalReleasePnl")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<string>("TradeId")
                         .HasColumnType("nvarchar(max)");
@@ -911,7 +934,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("BalanceBeforeUpdate")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<string>("BrokerId")
                         .HasColumnType("nvarchar(max)");
@@ -929,7 +953,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("VolumeDifference")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<string>("WalletName")
                         .HasColumnType("nvarchar(max)");
@@ -958,16 +983,19 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("ReleasedPnl")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<DateTime>("SettlementDate")
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("VolumeFrom")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<decimal>("VolumeTo")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<string>("WalletFrom")
                         .HasColumnType("nvarchar(max)");
@@ -993,7 +1021,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<decimal>("ReleasedPnl")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<DateTime>("SettlementDate")
                         .HasColumnType("datetime2");
@@ -1002,10 +1031,12 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("VolumeFrom")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<decimal>("VolumeTo")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<string>("WalletFrom")
                         .HasColumnType("nvarchar(max)");
@@ -1040,7 +1071,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("FeeVolume")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(max)");
@@ -1049,10 +1081,12 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("OppositeVolume")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.Property<string>("QuoteAsset")
                         .HasColumnType("nvarchar(max)");
@@ -1073,7 +1107,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Volume")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
 
                     b.ToTable("TradeHedger", "sbus");
                 });
