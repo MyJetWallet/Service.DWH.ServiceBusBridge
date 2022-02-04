@@ -17,6 +17,7 @@ using Service.IntrestManager.Domain.Models;
 using Service.Liquidity.Converter.Domain.Models;
 using Service.Liquidity.Portfolio.Domain.Models;
 using Service.Liquidity.PortfolioHedger.Domain.Models;
+using Service.Liquidity.TradingPortfolio.Domain.Models;
 using Service.Registration.Domain.Models;
 using SimpleTrading.ServiceBus.Models;
 
@@ -61,16 +62,10 @@ namespace Service.DwhServiceBusBridge.DwhDatabase
         
         public DbSet<TransferVerificationMessage> TransferVerificationTable { get; set; }
         
-        public DbSet<SwapMessage> SwapMessageTable { get; set; }  
-        
-        public DbSet<ChangeBalanceHistory> ChangeBalanceHistoryTable { get; set; }
-        
-        public DbSet<FeeShareSettlement> FeeShareSettlementTable { get; set; }
-        
+        public DbSet<SwapMessage> SwapMessageTable { get; set; }
+
         public DbSet<ManualSettlement> ManualSettlementTable { get; set; }
-        
-        public DbSet<AssetPortfolioTrade> AssetPortfolioTradeTable { get; set; }
-        
+
         public DbSet<PaidInterestRateMessage> PaidInterestRateTable { get; set; }
         
         public DbSet<TradeMessage> TradeMessageTable { get; set; }
@@ -87,6 +82,14 @@ namespace Service.DwhServiceBusBridge.DwhDatabase
         
         public DbSet<MeEventEntity> MeEventTable { get; set; }
         
+        public DbSet<PortfolioTrade> PortfolioTradeTable { get; set; }
+        
+        public DbSet<PortfolioChangeBalance> PortfolioChangeBalanceTable { get; set; }
+        
+        public DbSet<PortfolioSettlement> PortfolioSettlementTable { get; set; }
+        
+        public DbSet<PortfolioFeeShare> PortfolioFeeShareTable { get; set; }
+
        public DbSet<SignalCircleTransferEntity> CircleTransferTable { get; set; }
 
 
@@ -140,12 +143,10 @@ namespace Service.DwhServiceBusBridge.DwhDatabase
             modelBuilder.Entity<SignalBitGoTransfer>().ToTable("BitgoTransferSignal");
             modelBuilder.Entity<SignalBitGoTransfer>().HasNoKey();
 
-
             modelBuilder.Entity<BidAskServiceBusModel>().ToTable("SpotBidAsk");
             modelBuilder.Entity<BidAskServiceBusModel>().HasKey(e => e.Id);
             modelBuilder.Entity<BidAskServiceBusModel>().Property(e => e.Id).ValueGeneratedNever();
 
-            
             modelBuilder.Entity<ClientProfileUpdateMessageEntity>().ToTable("JetWalletClientProfileUpdate");
             modelBuilder.Entity<ClientProfileUpdateMessageEntity>().HasKey(e => new {e.ClientId, e.Timestamp, e.Id});
             modelBuilder.Entity<ClientProfileUpdateMessageEntity>().Ignore(e => e.Blockers);
@@ -186,24 +187,12 @@ namespace Service.DwhServiceBusBridge.DwhDatabase
             modelBuilder.Entity<Transfer>().HasNoKey();
             modelBuilder.Entity<Transfer>().Property(e => e.Amount).HasPrecision(18, 8);
             
-            
             modelBuilder.Entity<TransferVerificationMessage>().ToTable("JetWalletTransferPhoneVerification");
             modelBuilder.Entity<TransferVerificationMessage>().HasNoKey();
 
             modelBuilder.Entity<SwapMessage>().ToTable("JetwalletLiquidityConvertorSwap");
             modelBuilder.Entity<SwapMessage>().HasNoKey();
             modelBuilder.Entity<SwapMessage>().Property(e => e.DifferenceVolumeAbs).HasPrecision(18, 8);
-
-            modelBuilder.Entity<ChangeBalanceHistory>().ToTable("JetwalletLiquidityPortfolioChangebalancehistory");
-            modelBuilder.Entity<ChangeBalanceHistory>().HasNoKey();
-            modelBuilder.Entity<ChangeBalanceHistory>().Property(e => e.BalanceBeforeUpdate).HasPrecision(18, 8);
-            modelBuilder.Entity<ChangeBalanceHistory>().Property(e => e.VolumeDifference).HasPrecision(18, 8);
-            
-            modelBuilder.Entity<FeeShareSettlement>().ToTable("JetwalletLiquidityPortfolioFeesharesettlement");
-            modelBuilder.Entity<FeeShareSettlement>().HasNoKey();
-            modelBuilder.Entity<FeeShareSettlement>().Property(e => e.ReleasedPnl).HasPrecision(18, 8);
-            modelBuilder.Entity<FeeShareSettlement>().Property(e => e.VolumeFrom).HasPrecision(18, 8);
-            modelBuilder.Entity<FeeShareSettlement>().Property(e => e.VolumeTo).HasPrecision(18, 8);
             
             modelBuilder.Entity<ManualSettlement>().ToTable("JetwalletLiquidityPortfolioManualsettlement");
             modelBuilder.Entity<ManualSettlement>().HasNoKey();
@@ -211,18 +200,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase
             modelBuilder.Entity<ManualSettlement>().Property(e => e.VolumeTo).HasPrecision(18, 8);
             modelBuilder.Entity<ManualSettlement>().Property(e => e.VolumeFrom).HasPrecision(18, 8);
             
-            modelBuilder.Entity<AssetPortfolioTrade>().ToTable("JetwalletLiquidityPortfolioTrades");
-            modelBuilder.Entity<AssetPortfolioTrade>().HasNoKey();
-            modelBuilder.Entity<AssetPortfolioTrade>().Property(e => e.BaseAssetPriceInUsd).HasPrecision(18, 8);
-            modelBuilder.Entity<AssetPortfolioTrade>().Property(e => e.BaseVolume).HasPrecision(18, 8);
-            modelBuilder.Entity<AssetPortfolioTrade>().Property(e => e.BaseVolumeInUsd).HasPrecision(18, 8);
-            modelBuilder.Entity<AssetPortfolioTrade>().Property(e => e.FeeVolume).HasPrecision(18, 8);
-            modelBuilder.Entity<AssetPortfolioTrade>().Property(e => e.Price).HasPrecision(18, 8);
-            modelBuilder.Entity<AssetPortfolioTrade>().Property(e => e.QuoteAssetPriceInUsd).HasPrecision(18, 8);
-            modelBuilder.Entity<AssetPortfolioTrade>().Property(e => e.QuoteVolume).HasPrecision(18, 8);
-            modelBuilder.Entity<AssetPortfolioTrade>().Property(e => e.QuoteVolumeInUsd).HasPrecision(18, 8);
-            modelBuilder.Entity<AssetPortfolioTrade>().Property(e => e.TotalReleasePnl).HasPrecision(18, 8);
-
             modelBuilder.Entity<PaidInterestRateMessage>().ToTable("PaidInterestRate");
             modelBuilder.Entity<PaidInterestRateMessage>().HasNoKey();
             modelBuilder.Entity<PaidInterestRateMessage>().Property(e => e.Amount).HasPrecision(18, 8);
@@ -258,11 +235,36 @@ namespace Service.DwhServiceBusBridge.DwhDatabase
             modelBuilder.Entity<MeEventEntity>().ToTable("MeEvent");
             modelBuilder.Entity<MeEventEntity>().HasKey(e=>e.MessageId);
             modelBuilder.Entity<MeEventEntity>().Property(e=>e.MessageId).ValueGeneratedNever();
-
             
             modelBuilder.Entity<SignalCircleTransferEntity>().ToTable("CircleTransferSignal");
             modelBuilder.Entity<SignalCircleTransferEntity>().HasKey(e=> e.Id);
-            
+
+            modelBuilder.Entity<PortfolioTrade>().ToTable("JetwalletLiquidityTradingportfolioTrades");
+            modelBuilder.Entity<PortfolioTrade>().HasNoKey();
+            modelBuilder.Entity<PortfolioTrade>().Property(e => e.BaseVolume).HasPrecision(18, 8);
+            modelBuilder.Entity<PortfolioTrade>().Property(e => e.BaseAssetPriceInUsd).HasPrecision(18, 8);
+            modelBuilder.Entity<PortfolioTrade>().Property(e => e.BaseVolumeInUsd).HasPrecision(18, 8);
+            modelBuilder.Entity<PortfolioTrade>().Property(e => e.FeeVolume).HasPrecision(18, 8);
+            modelBuilder.Entity<PortfolioTrade>().Property(e => e.Price).HasPrecision(18, 8);
+            modelBuilder.Entity<PortfolioTrade>().Property(e => e.QuoteAssetPriceInUsd).HasPrecision(18, 8);
+            modelBuilder.Entity<PortfolioTrade>().Property(e => e.QuoteVolume).HasPrecision(18, 8);
+            modelBuilder.Entity<PortfolioTrade>().Property(e => e.QuoteVolumeInUsd).HasPrecision(18, 8);
+
+            modelBuilder.Entity<PortfolioChangeBalance>().ToTable("JetwalletLiquidityTradingportfolioChangebalance");
+            modelBuilder.Entity<PortfolioChangeBalance>().HasNoKey();
+            modelBuilder.Entity<PortfolioChangeBalance>().Property(e => e.Balance).HasPrecision(18, 8);
+            modelBuilder.Entity<PortfolioChangeBalance>().Property(e => e.BalanceBeforeUpdate).HasPrecision(18, 8);
+
+            modelBuilder.Entity<PortfolioSettlement>().ToTable("JetwalletLiquidityTradingportfolioSettlement");
+            modelBuilder.Entity<PortfolioSettlement>().HasNoKey();
+            modelBuilder.Entity<PortfolioSettlement>().Property(e => e.ReleasedPnl).HasPrecision(18, 8);
+            modelBuilder.Entity<PortfolioSettlement>().Property(e => e.VolumeFrom).HasPrecision(18, 8);
+            modelBuilder.Entity<PortfolioSettlement>().Property(e => e.VolumeTo).HasPrecision(18, 8);
+
+            modelBuilder.Entity<PortfolioFeeShare>().ToTable("JetwalletLiquidityTradingportfolioFeeshare");
+            modelBuilder.Entity<PortfolioFeeShare>().HasNoKey();
+            modelBuilder.Entity<PortfolioFeeShare>().Property(e => e.VolumeFrom).HasPrecision(18, 8);
+            modelBuilder.Entity<PortfolioFeeShare>().Property(e => e.VolumeTo).HasPrecision(18, 8);
         }
     }
 }
