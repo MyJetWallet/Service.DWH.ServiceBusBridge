@@ -169,11 +169,6 @@ namespace Service.DwhServiceBusBridge.Modules
             
             RegisterMessageWriter<ManualSettlement>(builder, ManualSettlement.TopicName);
 
-            builder.RegisterMyServiceBusSubscriberBatch<AssetPortfolioTrade>(serviceBusClient,
-                AssetPortfolioTrade.TopicName, queryName, TopicQueueType.PermanentWithSingleConnection);
-            
-            RegisterMessageWriter<AssetPortfolioTrade>(builder, AssetPortfolioTrade.TopicName);
-
             builder.RegisterMyServiceBusSubscriberBatch<ClientRegisterFailAlreadyExistsMessage>(serviceBusClient,
                 ClientRegisterFailAlreadyExistsMessage.TopicName, queryName,
                 TopicQueueType.PermanentWithSingleConnection);
