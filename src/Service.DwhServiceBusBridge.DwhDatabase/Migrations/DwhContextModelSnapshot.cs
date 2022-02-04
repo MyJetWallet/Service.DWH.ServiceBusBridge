@@ -845,167 +845,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.ToTable("JetwalletLiquidityConvertorSwap", "sbus");
                 });
 
-            modelBuilder.Entity("Service.Liquidity.Portfolio.Domain.Models.AssetPortfolioTrade", b =>
-                {
-                    b.Property<string>("AssociateBrokerId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AssociateSymbol")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("BaseAsset")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("BaseAssetPriceInUsd")
-                        .HasPrecision(18, 8)
-                        .HasColumnType("decimal(18,8)");
-
-                    b.Property<decimal>("BaseVolume")
-                        .HasPrecision(18, 8)
-                        .HasColumnType("decimal(18,8)");
-
-                    b.Property<decimal>("BaseVolumeInUsd")
-                        .HasPrecision(18, 8)
-                        .HasColumnType("decimal(18,8)");
-
-                    b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ErrorMessage")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FeeAsset")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("FeeVolume")
-                        .HasPrecision(18, 8)
-                        .HasColumnType("decimal(18,8)");
-
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
-
-                    b.Property<decimal>("Price")
-                        .HasPrecision(18, 8)
-                        .HasColumnType("decimal(18,8)");
-
-                    b.Property<string>("QuoteAsset")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("QuoteAssetPriceInUsd")
-                        .HasPrecision(18, 8)
-                        .HasColumnType("decimal(18,8)");
-
-                    b.Property<decimal>("QuoteVolume")
-                        .HasPrecision(18, 8)
-                        .HasColumnType("decimal(18,8)");
-
-                    b.Property<decimal>("QuoteVolumeInUsd")
-                        .HasPrecision(18, 8)
-                        .HasColumnType("decimal(18,8)");
-
-                    b.Property<int>("Side")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Source")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("TotalReleasePnl")
-                        .HasPrecision(18, 8)
-                        .HasColumnType("decimal(18,8)");
-
-                    b.Property<string>("TradeId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("User")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("WalletName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.ToTable("JetwalletLiquidityPortfolioTrades", "sbus");
-                });
-
-            modelBuilder.Entity("Service.Liquidity.Portfolio.Domain.Models.ChangeBalanceHistory", b =>
-                {
-                    b.Property<string>("Asset")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("BalanceBeforeUpdate")
-                        .HasPrecision(18, 8)
-                        .HasColumnType("decimal(18,8)");
-
-                    b.Property<string>("BrokerId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("UpdateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("User")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("VolumeDifference")
-                        .HasPrecision(18, 8)
-                        .HasColumnType("decimal(18,8)");
-
-                    b.Property<string>("WalletName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.ToTable("JetwalletLiquidityPortfolioChangebalancehistory", "sbus");
-                });
-
-            modelBuilder.Entity("Service.Liquidity.Portfolio.Domain.Models.FeeShareSettlement", b =>
-                {
-                    b.Property<string>("Asset")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("BrokerId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("Id")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("OperationId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ReferrerClientId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("ReleasedPnl")
-                        .HasPrecision(18, 8)
-                        .HasColumnType("decimal(18,8)");
-
-                    b.Property<DateTime>("SettlementDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("VolumeFrom")
-                        .HasPrecision(18, 8)
-                        .HasColumnType("decimal(18,8)");
-
-                    b.Property<decimal>("VolumeTo")
-                        .HasPrecision(18, 8)
-                        .HasColumnType("decimal(18,8)");
-
-                    b.Property<string>("WalletFrom")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("WalletTo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.ToTable("JetwalletLiquidityPortfolioFeesharesettlement", "sbus");
-                });
-
             modelBuilder.Entity("Service.Liquidity.Portfolio.Domain.Models.ManualSettlement", b =>
                 {
                     b.Property<string>("Asset")
@@ -1111,6 +950,200 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                         .HasColumnType("decimal(18,8)");
 
                     b.ToTable("TradeHedger", "sbus");
+                });
+
+            modelBuilder.Entity("Service.Liquidity.TradingPortfolio.Domain.Models.PortfolioChangeBalance", b =>
+                {
+                    b.Property<string>("Asset")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Balance")
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
+
+                    b.Property<decimal>("BalanceBeforeUpdate")
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
+
+                    b.Property<string>("BrokerId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("User")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WalletName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("JetwalletLiquidityTradingportfolioChangebalance", "sbus");
+                });
+
+            modelBuilder.Entity("Service.Liquidity.TradingPortfolio.Domain.Models.PortfolioFeeShare", b =>
+                {
+                    b.Property<string>("Asset")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BrokerId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("OperationId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReferrerClientId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("SettlementDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("VolumeFrom")
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
+
+                    b.Property<decimal>("VolumeTo")
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
+
+                    b.Property<string>("WalletFrom")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WalletTo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("JetwalletLiquidityTradingportfolioFeeshare", "sbus");
+                });
+
+            modelBuilder.Entity("Service.Liquidity.TradingPortfolio.Domain.Models.PortfolioSettlement", b =>
+                {
+                    b.Property<string>("Asset")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BrokerId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<decimal>("ReleasedPnl")
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
+
+                    b.Property<DateTime>("SettlementDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("User")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("VolumeFrom")
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
+
+                    b.Property<decimal>("VolumeTo")
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
+
+                    b.Property<string>("WalletFrom")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WalletTo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("JetwalletLiquidityTradingportfolioSettlement", "sbus");
+                });
+
+            modelBuilder.Entity("Service.Liquidity.TradingPortfolio.Domain.Models.PortfolioTrade", b =>
+                {
+                    b.Property<string>("AssociateBrokerId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AssociateSymbol")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BaseAsset")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("BaseAssetPriceInUsd")
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
+
+                    b.Property<decimal>("BaseVolume")
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
+
+                    b.Property<decimal>("BaseVolumeInUsd")
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
+
+                    b.Property<string>("BaseWalletName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FeeAsset")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("FeeVolume")
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
+
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<decimal>("Price")
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
+
+                    b.Property<string>("QuoteAsset")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("QuoteAssetPriceInUsd")
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
+
+                    b.Property<decimal>("QuoteVolume")
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
+
+                    b.Property<decimal>("QuoteVolumeInUsd")
+                        .HasPrecision(18, 8)
+                        .HasColumnType("decimal(18,8)");
+
+                    b.Property<string>("QuoteWalletName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Side")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Source")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TradeId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("User")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("JetwalletLiquidityTradingportfolioTrades", "sbus");
                 });
 
             modelBuilder.Entity("Service.Registration.Domain.Models.ClientRegisterMessage", b =>
