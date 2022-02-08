@@ -13,41 +13,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 name: "sbus");
 
             migrationBuilder.CreateTable(
-                name: "AssetPortfolioTradeTable",
-                schema: "sbus",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TradeId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AssociateBrokerId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    WalletName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AssociateSymbol = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BaseAsset = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    QuoteAsset = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Side = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    BaseVolume = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    QuoteVolume = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    BaseVolumeInUsd = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    QuoteVolumeInUsd = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    BaseAssetPriceInUsd = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    QuoteAssetPriceInUsd = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ErrorMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Source = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    User = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TotalReleasePnl = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    FeeAsset = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FeeVolume = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AssetPortfolioTradeTable", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "BitgoPendingApprovalSignal",
                 schema: "sbus",
                 columns: table => new
@@ -346,11 +311,11 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     BrokerId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     WalletName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Asset = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Balance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Balance = table.Column<decimal>(type: "decimal(18,8)", precision: 18, scale: 8, nullable: false),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     User = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BalanceBeforeUpdate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    BalanceBeforeUpdate = table.Column<decimal>(type: "decimal(18,8)", precision: 18, scale: 8, nullable: false),
                     Id = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -367,8 +332,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     WalletFrom = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     WalletTo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Asset = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    VolumeFrom = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    VolumeTo = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    VolumeFrom = table.Column<decimal>(type: "decimal(18,8)", precision: 18, scale: 8, nullable: false),
+                    VolumeTo = table.Column<decimal>(type: "decimal(18,8)", precision: 18, scale: 8, nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ReferrerClientId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SettlementDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -387,12 +352,12 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     WalletFrom = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     WalletTo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Asset = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    VolumeFrom = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    VolumeTo = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    VolumeFrom = table.Column<decimal>(type: "decimal(18,8)", precision: 18, scale: 8, nullable: false),
+                    VolumeTo = table.Column<decimal>(type: "decimal(18,8)", precision: 18, scale: 8, nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     User = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SettlementDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ReleasedPnl = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ReleasedPnl = table.Column<decimal>(type: "decimal(18,8)", precision: 18, scale: 8, nullable: false),
                     Id = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -412,19 +377,19 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     BaseAsset = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     QuoteAsset = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Side = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    BaseVolume = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    QuoteVolume = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    BaseVolumeInUsd = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    QuoteVolumeInUsd = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    BaseAssetPriceInUsd = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    QuoteAssetPriceInUsd = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,8)", precision: 18, scale: 8, nullable: false),
+                    BaseVolume = table.Column<decimal>(type: "decimal(18,8)", precision: 18, scale: 8, nullable: false),
+                    QuoteVolume = table.Column<decimal>(type: "decimal(18,8)", precision: 18, scale: 8, nullable: false),
+                    BaseVolumeInUsd = table.Column<decimal>(type: "decimal(18,8)", precision: 18, scale: 8, nullable: false),
+                    QuoteVolumeInUsd = table.Column<decimal>(type: "decimal(18,8)", precision: 18, scale: 8, nullable: false),
+                    BaseAssetPriceInUsd = table.Column<decimal>(type: "decimal(18,8)", precision: 18, scale: 8, nullable: false),
+                    QuoteAssetPriceInUsd = table.Column<decimal>(type: "decimal(18,8)", precision: 18, scale: 8, nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Source = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     User = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FeeAsset = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FeeVolume = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FeeVolume = table.Column<decimal>(type: "decimal(18,8)", precision: 18, scale: 8, nullable: false),
                     Id = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -681,10 +646,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "AssetPortfolioTradeTable",
-                schema: "sbus");
-
             migrationBuilder.DropTable(
                 name: "BitgoPendingApprovalSignal",
                 schema: "sbus");
