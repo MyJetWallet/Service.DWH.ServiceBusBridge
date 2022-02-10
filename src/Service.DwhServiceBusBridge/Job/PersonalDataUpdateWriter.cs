@@ -34,10 +34,10 @@ namespace Service.DwhServiceBusBridge.Job
                 await using var ctx = _dwhDbContextFactory.Create();
 
                 var data = messages.Select(PersonalDataUpdateEntity.Create).ToList();
+                
+                await ctx.PersonalDataUpdateTable.AddRangeAsync(data);
 
-                await ctx.PersonalDataUpdateTable.UpsertRange(data)
-                    .On(e=>new {e.Timestamp})
-                    .RunAsync();
+                await ctx.SaveChangesAsync();
 
                 _logger.LogInformation("{topic} handled {count} ",PersonalDataUpdateMessage.TopicName ,data.Count);
             } catch (Exception e)

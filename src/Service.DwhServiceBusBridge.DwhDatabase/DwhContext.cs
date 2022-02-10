@@ -222,9 +222,9 @@ namespace Service.DwhServiceBusBridge.DwhDatabase
             modelBuilder.Entity<WalletTradeMassageEntity>().Ignore(e => e.Trade);
 
             modelBuilder.Entity<PersonalDataUpdateEntity>().ToTable("JetWalletPersonalDataUpdate");
-            modelBuilder.Entity<PersonalDataUpdateEntity>().HasKey(e=>e.Timestamp);
-            modelBuilder.Entity<PersonalDataUpdateEntity>().Property(e=>e.Timestamp).ValueGeneratedNever();
-
+            modelBuilder.Entity<PersonalDataUpdateEntity>().HasKey(e => e.Id);
+            modelBuilder.Entity<PersonalDataUpdateEntity>().Property(e=>e.Id).ValueGeneratedOnAdd();
+            
             modelBuilder.Entity<ClientRegisterFailAlreadyExistsEntity>().ToTable("JetwalletRegistrationFailedAlreadyExists");
             modelBuilder.Entity<ClientRegisterFailAlreadyExistsEntity>().HasKey(e=>e.Timestamp);
             modelBuilder.Entity<ClientRegisterFailAlreadyExistsEntity>().Property(e=>e.Timestamp).ValueGeneratedNever();

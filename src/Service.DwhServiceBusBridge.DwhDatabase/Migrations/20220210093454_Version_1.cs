@@ -421,12 +421,14 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 schema: "sbus",
                 columns: table => new
                 {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TraderId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JetWalletPersonalDataUpdate", x => x.Timestamp);
+                    table.PrimaryKey("PK_JetWalletPersonalDataUpdate", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
