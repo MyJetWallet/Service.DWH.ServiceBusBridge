@@ -20,6 +20,7 @@ using Service.Liquidity.PortfolioHedger.Domain.Models;
 using Service.Liquidity.TradingPortfolio.Domain.Models;
 using Service.Registration.Domain.Models;
 using SimpleTrading.ServiceBus.Models;
+using TradeMessage = Service.Liquidity.PortfolioHedger.Domain.Models.TradeMessage;
 
 namespace Service.DwhServiceBusBridge.DwhDatabase
 {
@@ -173,6 +174,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase
             modelBuilder.Entity<Deposit>().Property(e => e.CardLast4).IsRequired(false);
             modelBuilder.Entity<Deposit>().Property(e => e.Amount).HasPrecision(18, 8);
             modelBuilder.Entity<Deposit>().Property(e => e.FeeAmount).HasPrecision(18, 8);
+            modelBuilder.Entity<Deposit>().Property(e => e.Network).IsRequired(false);
 
             modelBuilder.Entity<Withdrawal>().ToTable("JetWalletCryptoWithdrawalOperation");
             modelBuilder.Entity<Withdrawal>().HasNoKey();

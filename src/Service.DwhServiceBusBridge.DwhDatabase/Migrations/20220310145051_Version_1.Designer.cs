@@ -12,7 +12,7 @@ using Service.DwhServiceBusBridge.DwhDatabase;
 namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 {
     [DbContext(typeof(DwhContext))]
-    [Migration("20220210093454_Version_1")]
+    [Migration("20220310145051_Version_1")]
     partial class Version_1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,7 +20,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("sbus")
-                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("ProductVersion", "6.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -97,7 +97,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Network")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RetriesCount")
@@ -175,6 +174,9 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<decimal>("Amount")
                         .HasPrecision(18, 8)
                         .HasColumnType("decimal(18,8)");
+
+                    b.Property<decimal>("AssetIndexPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("AssetSymbol")
                         .HasColumnType("nvarchar(max)");

@@ -129,7 +129,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     FeeAmount = table.Column<decimal>(type: "decimal(18,8)", precision: 18, scale: 8, nullable: false),
                     FeeAssetSymbol = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CardLast4 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Network = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Network = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -174,7 +174,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     Blockchain = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastTs = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ExternalSystemId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ToTag = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ToTag = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AssetIndexPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {

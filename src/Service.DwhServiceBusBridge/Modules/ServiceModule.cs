@@ -38,6 +38,7 @@ using Service.Registration.Domain.Models;
 using Service.VerificationCodes.Grpc;
 using Service.VerificationCodes.Grpc.Models;
 using SimpleTrading.ServiceBus.Models;
+using TradeMessage = Service.Liquidity.PortfolioHedger.Domain.Models.TradeMessage;
 
 namespace Service.DwhServiceBusBridge.Modules
 {
