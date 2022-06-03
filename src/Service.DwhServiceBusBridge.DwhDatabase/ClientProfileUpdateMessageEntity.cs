@@ -6,17 +6,19 @@ using Service.ClientProfile.Domain.Models;
 
 namespace Service.DwhServiceBusBridge.DwhDatabase
 {
-    public class ClientProfileUpdateMessageEntity : ClientProfile.Domain.Models.ClientProfile
+    public class ClientProfileUpdateMessageEntity //: ClientProfile.Domain.Models.ClientProfile
     {
         public long Id { get; set; }
-        
+        public string ClientId { get; set; }
+        public string Blockers { get; set; }
         public string OldProfileJson { get; set; }
-        
         public string BlockresJson { get; set; }
-        
         public string Status2FEText { get; set; }
-
         public DateTime Timestamp { get; set; }
+        public bool EmailConfirmed { get; set; }
+        public bool KYCPassed { get; set; }
+        public bool PhoneConfirmed { get; set; }
+        public Status2FA Status2FA { get; set; }
 
         public static ClientProfileUpdateMessageEntity Create(ClientProfileUpdateMessage message)
         {
@@ -35,5 +37,6 @@ namespace Service.DwhServiceBusBridge.DwhDatabase
                 Timestamp = message.Timestamp
             };
         }
+
     }
 }

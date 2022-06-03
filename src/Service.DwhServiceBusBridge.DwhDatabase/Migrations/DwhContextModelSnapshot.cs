@@ -18,7 +18,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("sbus")
-                .HasAnnotation("ProductVersion", "6.0.2")
+                .HasAnnotation("ProductVersion", "6.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -50,6 +50,9 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<decimal>("Amount")
                         .HasPrecision(18, 8)
                         .HasColumnType("decimal(18,8)");
+
+                    b.Property<decimal>("AssetIndexPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("AssetSymbol")
                         .IsRequired()
@@ -212,14 +215,23 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<string>("ExternalSystemId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("FeeActualAssetIndexPrice")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<decimal>("FeeAmount")
                         .HasPrecision(18, 8)
                         .HasColumnType("decimal(18,8)");
+
+                    b.Property<decimal>("FeeAssetIndexPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("FeeAssetSymbol")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FeeRefundTransactionId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FeeWalletId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("Id")
@@ -237,6 +249,9 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<DateTime>("LastTs")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("MatchingEngineId")
                         .HasColumnType("nvarchar(max)");
 
@@ -246,11 +261,20 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<DateTime>("NotificationTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("PhoneModel")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("RefundTransactionId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RetriesCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("Signature")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("SignatureIssuedAt")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -368,20 +392,11 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<bool>("KYCPassed")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("LastTs")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("OldProfileJson")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PhoneConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("ReferralCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ReferrerClientId")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status2FA")
                         .HasColumnType("int");
@@ -401,6 +416,9 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("IpAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PlatformType")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TraderId")
@@ -530,8 +548,14 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<string>("IP")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("Passed2FA")
                         .HasColumnType("bit");
+
+                    b.Property<string>("PhoneModel")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PlatformType")
                         .HasColumnType("int");
@@ -731,6 +755,9 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<DateTime>("LastTs")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("MatchingEngineId")
                         .HasColumnType("nvarchar(max)");
 
@@ -739,6 +766,9 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 
                     b.Property<DateTime>("NotificationTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("PhoneModel")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RefundTransactionId")
                         .HasColumnType("nvarchar(max)");
@@ -793,6 +823,9 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<decimal>("IndexPrice")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("Symbol")
                         .HasColumnType("nvarchar(max)");
 
@@ -829,11 +862,32 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                         .HasPrecision(18, 8)
                         .HasColumnType("decimal(18,8)");
 
+                    b.Property<decimal>("DifferenceVolumePercent")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("FeeAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("FeeAsset")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("FeePercent")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("MarkUp")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("MessageId")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("QuoteType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ScheduleType")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
@@ -1110,9 +1164,15 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     b.Property<string>("FeeAsset")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("FeeAssetPriceInUsd")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<decimal>("FeeVolume")
                         .HasPrecision(18, 8)
                         .HasColumnType("decimal(18,8)");
+
+                    b.Property<decimal>("FeeVolumeInUsd")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<long>("Id")
                         .HasColumnType("bigint");
@@ -1147,6 +1207,9 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 
                     b.Property<string>("TradeId")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.Property<string>("User")
                         .HasColumnType("nvarchar(max)");

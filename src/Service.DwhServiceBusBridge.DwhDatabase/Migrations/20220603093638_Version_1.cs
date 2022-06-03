@@ -86,19 +86,16 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                 schema: "sbus",
                 columns: table => new
                 {
-                    ClientId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Id = table.Column<long>(type: "bigint", nullable: false),
+                    ClientId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     OldProfileJson = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BlockresJson = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status2FEText = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    Status2FA = table.Column<int>(type: "int", nullable: false),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PhoneConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     KYCPassed = table.Column<bool>(type: "bit", nullable: false),
-                    ReferralCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ReferrerClientId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastTs = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    PhoneConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    Status2FA = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -129,7 +126,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     FeeAmount = table.Column<decimal>(type: "decimal(18,8)", precision: 18, scale: 8, nullable: false),
                     FeeAssetSymbol = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CardLast4 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Network = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Network = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AssetIndexPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -175,7 +173,14 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     LastTs = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ExternalSystemId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ToTag = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AssetIndexPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    AssetIndexPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Signature = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SignatureIssuedAt = table.Column<long>(type: "bigint", nullable: false),
+                    FeeAssetIndexPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FeeActualAssetIndexPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FeeWalletId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneModel = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -277,7 +282,14 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     AssetId2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Volume2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DifferenceAsset = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DifferenceVolumeAbs = table.Column<decimal>(type: "decimal(18,8)", precision: 18, scale: 8, nullable: false)
+                    DifferenceVolumeAbs = table.Column<decimal>(type: "decimal(18,8)", precision: 18, scale: 8, nullable: false),
+                    FeeAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FeePercent = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FeeAsset = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    QuoteType = table.Column<int>(type: "int", nullable: false),
+                    ScheduleType = table.Column<int>(type: "int", nullable: false),
+                    MarkUp = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DifferenceVolumePercent = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -391,6 +403,9 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     User = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FeeAsset = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FeeVolume = table.Column<decimal>(type: "decimal(18,8)", precision: 18, scale: 8, nullable: false),
+                    FeeVolumeInUsd = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FeeAssetPriceInUsd = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
                     Id = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -440,7 +455,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TraderId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IpAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserAgent = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UserAgent = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PlatformType = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -489,7 +505,9 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     Cancelling = table.Column<bool>(type: "bit", nullable: false),
                     MeErrorCode = table.Column<int>(type: "int", nullable: false),
                     SenderName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastTs = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    LastTs = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PhoneModel = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -536,7 +554,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     ClientId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Symbol = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,8)", precision: 18, scale: 8, nullable: false)
+                    Amount = table.Column<decimal>(type: "decimal(18,8)", precision: 18, scale: 8, nullable: false),
+                    IndexPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -610,7 +629,9 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PlatformType = table.Column<int>(type: "int", nullable: false),
                     Application = table.Column<int>(type: "int", nullable: false),
-                    DeviceUid = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    DeviceUid = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneModel = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
