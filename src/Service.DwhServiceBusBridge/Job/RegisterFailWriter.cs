@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using DotNetCoreDecorators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using MyJetWallet.Sdk.Authorization.ServiceBus;
 using Service.DwhServiceBusBridge.DwhDatabase;
 using Service.Registration.Domain.Models;
 

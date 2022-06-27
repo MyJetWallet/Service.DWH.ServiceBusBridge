@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DotNetCoreDecorators;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using MyJetWallet.Sdk.Authorization.ServiceBus;
+using MyJetWallet.ServiceBus.SessionAudit.Models;
 using Service.DwhServiceBusBridge.DwhDatabase;
 
 namespace Service.DwhServiceBusBridge.Job
