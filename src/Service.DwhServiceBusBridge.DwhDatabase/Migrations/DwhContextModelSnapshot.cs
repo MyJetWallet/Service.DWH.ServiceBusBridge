@@ -18,7 +18,7 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("sbus")
-                .HasAnnotation("ProductVersion", "6.0.5")
+                .HasAnnotation("ProductVersion", "6.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -73,6 +73,9 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("DepositWorkflowState")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("EventDate")
                         .HasColumnType("datetime2");
 
@@ -86,6 +89,15 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 
                     b.Property<long>("Id")
                         .HasColumnType("bigint");
+
+                    b.Property<decimal>("IncomingAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("IncomingCompanyFeeAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("IncomingFeeAmount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Integration")
                         .IsRequired()
