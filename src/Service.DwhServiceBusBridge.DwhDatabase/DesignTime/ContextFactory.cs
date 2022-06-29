@@ -12,16 +12,8 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.DesignTime
 
         public DwhContext CreateDbContext(string[] args)
         {
-            var connString = string.Empty;
-
-            while (string.IsNullOrEmpty(connString))
-            {
-                Console.Write("Connection string: ");
-                connString = Console.ReadLine();
-            }
-
             var optionsBuilder = new DbContextOptionsBuilder<DwhContext>();
-            optionsBuilder.UseSqlServer(connString);
+            optionsBuilder.UseSqlServer();
             //optionsBuilder.UseNpgsql(connString);
 
             return new DwhContext(optionsBuilder.Options);

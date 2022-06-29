@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
 {
-    public partial class Version_1 : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -127,7 +127,11 @@ namespace Service.DwhServiceBusBridge.DwhDatabase.Migrations
                     FeeAssetSymbol = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CardLast4 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Network = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AssetIndexPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    AssetIndexPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    IncomingAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    IncomingFeeAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    IncomingCompanyFeeAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DepositWorkflowState = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

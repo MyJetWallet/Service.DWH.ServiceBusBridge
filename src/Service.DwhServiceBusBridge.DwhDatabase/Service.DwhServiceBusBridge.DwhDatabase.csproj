@@ -40,11 +40,6 @@
       <PackageReference Include="SimpleTrading.ServiceBus" Version="4.0.17" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Compile Remove="Migrations\20220204100920_Version_2.cs" />
-      <Compile Remove="Migrations\DwhContextModelSnapshot.cs" />
-      <Compile Remove="Migrations\20220208165142_Version_1.cs" />
-      <Compile Remove="Migrations\20220208165142_Version_1.Designer.cs" />
-    </ItemGroup>
+   
 
 </Project>
